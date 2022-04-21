@@ -1,6 +1,7 @@
 <?php
-	include 'C:/xampp/htdocs/projet_diversify/config.php';
+	include_once 'C:/xampp/htdocs/projet_diversify/controllerR/voucherC.php';
 	include_once 'C:/xampp/htdocs/projet_diversify/modelR/reservationMod.php';
+	include_once 'C:/xampp/htdocs/projet_diversify/modelR/voucherMod.php';
 	class ReservationC {
 		function afficherReservation(){
 			$sql="SELECT * FROM reservation";
@@ -28,6 +29,8 @@
 		function ajouterReservation($res){
 			$sql="INSERT INTO reservation (cin_client,date_res, adulte, enfant, id_event) 
 			VALUES (:cin_client,:date_res, :adulte,:enfant,:id_event)";
+			//$sql1="INSERT INTO voucher (cinClient,date_limite, avertissement, code) 
+			//VALUES (:cinClient,:date_limite, :avertissement, :code) ";
 			$db = config::getConnexion();
 			try{
 				$query = $db->prepare($sql);
@@ -41,7 +44,19 @@
 			}
 			catch (Exception $e){
 				echo 'Erreur: '.$e->getMessage();
-			}			
+			}	
+			/*try{
+				$query = $db->prepare($sql1);
+				$query->execute([
+					'cinClient' => $vou->getcinClient(),
+					'date_limite' => $vou->getdateRes(),
+					'avertissement' => $vou->getadulte(),
+					'code' => $vou->getenfant()
+				]);			
+			}
+			catch (Exception $e){
+				echo 'Erreur: '.$e->getMessage();
+			}	*/			
 		}
 		function recupererReservation($id_event){
 			$sql="SELECT * from reservation where id_event=$id_event";
