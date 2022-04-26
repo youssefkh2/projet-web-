@@ -12,22 +12,22 @@
      // create an instance of the controller
      $voucherC = new VoucherC();
      if (
-         isset($_POST["cinClient"]) &&
+         isset($_POST["code"]) &&
          isset($_POST["date_limite"]) &&		
          isset($_POST["avertissement"]) &&
-         isset($_POST["code"])
+         isset($_POST["cinClient"])
      ) {
          if (
-            !empty($_POST["cinClient"]) &&
+            !empty($_POST["code"]) &&
             !empty($_POST["date_limite"]) &&		
             !empty($_POST["avertissement"]) &&
-            !empty($_POST["code"])
+            !empty($_POST["cinClient"])
          ) {
              $voucher = new Voucher(
-                 $_POST['cinClient'],
+                 $_POST['code'],
                  $_POST['date_limite'],
                  $_POST['avertissement'], 
-                 $_POST['code']
+                 
              );
              $voucherC->modifierVoucher($voucher, $_POST["code"]);
              header('Location:afficherVoucher.php');
@@ -99,7 +99,7 @@ table.customTable thead {
         <!-- ============================================================== -->
         <div class="dashboard-header">
             <nav class="navbar navbar-expand-lg bg-white fixed-top">
-                <a class="navbar-brand" href="../back-front/backoffice.php">Divertify</a>
+                <a class="navbar-brand" href="../back-front/backoffice.php">Diversify</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -157,10 +157,10 @@ table.customTable thead {
 		<center><h1>Liste des reservations</h1></center>
 		<table border="1" align="center">
 			<tr>
-				<th>cinClient</th>
+                <th>cinClient</th>
 				<th>date_limite</th>
 				<th>avertissement</th>
-				<th>code</th>
+                <th>code</th>
 			</tr>
 			<?php
 				foreach($listeVoucher as $voucher) {

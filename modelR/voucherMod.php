@@ -3,14 +3,16 @@ class Voucher
 {
     private int $cinClient;
     private int $code;
+    private int $codeVoucher;
     private int $avertissement;
-    private string $date_limite;
+    private $date_limite;
  
-    public function __construct(int $cinClient,int $code,int $avertissement,string $date_limite)
+    public function __construct($date_limite,int $avertissement,int $cinClient, int $codeVoucher)
     {
         $this->cinClient=$cinClient;
         $this->date_limite=$date_limite;
-        $this->code=$code;
+        //$this->code=$code;
+        $this->codeVoucher = $codeVoucher;
         $this->avertissement=$avertissement;
         
     }
@@ -23,6 +25,11 @@ class Voucher
     public function getcode(){
         return $this->code;
     }
+
+    public function getCodeVoucher(){
+        return $this->codeVoucher;
+    }
+    
     public function getavertissement(){
         return $this->avertissement;
     }

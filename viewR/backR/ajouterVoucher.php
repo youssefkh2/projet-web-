@@ -16,21 +16,30 @@
     if (
         isset($_POST["cinClient"]) &&
 		isset($_POST["date_limite"]) &&		
-        isset($_POST["avertissement"]) &&
-		isset($_POST["code"])
+        isset($_POST["avertissement"]) 
+		//isset($_POST["code"])
     ) {
         if (
             !empty($_POST["cinClient"]) && 
 			!empty($_POST['date_limite']) &&
-            !empty($_POST["avertissement"]) && 
-			!empty($_POST["code"])
+            !empty($_POST["avertissement"]) 
+			//!empty($_POST["code"])
         ) {
-            $reservation = new Reservation(
+            // $reservation = new Reservation(
+            //     $_POST['cin_client'],
+			// 	$_POST['date_res'],
+            //     $_POST['adulte'], 
+			// 	$_POST['enfant'],
+            //     $_POST['id_event']
+            // ); 
+            $voucher = new Voucher(
                 $_POST['cinClient'],
 				$_POST['date_limite'],
                 $_POST['avertissement'], 
-				$_POST['code']
-            );
+				//$_POST['code']
+            ); 
+    
+           // $voucher = new Voucher( $_POST['cinClient'], $_POST['code'], $_POST['avertissement'], $_POST['date_limite']);
             $voucherC->ajouterVoucher($voucher);
             header('Location:afficherVoucher.php');
         }
@@ -153,7 +162,7 @@ table.customTable thead {
                 </nav>
             </div>
         </div>
-       <!-- <button><a href="afficherRES.php">Retour à la liste des reservations</a></button> -->
+
         <hr>
         <div class="dashboard-wrapper">
             <div class="container-fluid">
@@ -169,14 +178,15 @@ table.customTable thead {
                         <label for="cin_client">cin client:</label>
                     </td>
                     <td>
-                    <select>
+                    <select name="cinClient" id="cinClient">
           <?php
 				foreach($listeReservation as $reservation){
 			?>
-              <option value="type"><?php echo $reservation['cin_client']; ?></option>
+              <option value="<?php echo $reservation['cin_client']; ?>"><?php echo $reservation['cin_client']; ?></option>
               <?php
 				}
 			?>
+            <!--<td><input type="text" name="cinClient" id="cinClient" maxlength="10"></td>-->
                 </select>
                        <!-- <input type="text" name="cin_client" id="cin_client" maxlength="20">-->
                     </td>
@@ -186,7 +196,7 @@ table.customTable thead {
                         <label for="date_limite">date limite:
                         </label>
                     </td>
-                    <td><input type="text" name="date_limite" id="date_limite" maxlength="10"></td>
+                    <td><input type="date" name="date_limite" id="date_limite" ></td>
                 </tr>
                 <tr>
                     <td>
@@ -195,7 +205,7 @@ table.customTable thead {
                     </td>
                     <td><input type="text" name="avertissement" id="avertissement" maxlength="1"></td>
                 </tr>
-               <!-- <tr>
+              <!-- <tr>
                     <td>
                         <label for="code">code:
                         </label>
@@ -211,7 +221,8 @@ table.customTable thead {
                        
                     </td>
                     <td>
-                        <input type="reset" value="Annuler" >
+                      <!--  <input type="reset" value="Annuler"  >-->
+                        <button><a href="afficherVoucher.php">Annuler</a></button> 
                     </td>
                 </tr>
             </table>

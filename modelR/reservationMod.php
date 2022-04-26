@@ -2,7 +2,7 @@
 class Reservation
 {
     private int $cin_client;
-    private string $date_res;
+    private  $date_res=null;
     private int $adulte;
     private int $enfant;
     private int $id_event;
@@ -13,7 +13,8 @@ class Reservation
         $this->adulte=0;
         $this->enfant=0;
     }*/
-    public function __construct(int $cin_client, string $date_res,int $adulte,int $enfant,int $id_event)
+    
+    public function __construct(int $cin_client,$date_res,int $adulte,int $enfant,int $id_event)
     {
         $this->cin_client=$cin_client;
         $this->date_res=$date_res;

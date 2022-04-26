@@ -1,47 +1,90 @@
 <?php
-	include_once 'C:/xampp/htdocs/projet_diversify/controllerR/reservationC.php';
     include_once 'C:/xampp/htdocs/projet_diversify/modelR/reservationMod.php';
+    include_once 'C:/xampp/htdocs/projet_diversify/controllerR/reservationC.php'; 
+   // include_once 'C:/xampp/htdocs/projet_diversify/controllerR/voucherC.php';
+    use PHPMailer\PHPMailer\PHPMailer;
+    use PHPMailer\PHPMailer\Exception;
 
-	$reservationC=new ReservationC();
-	$listeReservation=$reservationC->afficherReservation(); 
+require 'C:/xampp/htdocs/projet_diversify/viewR/PHPMailer-master/src/Exception.php';
+require 'C:/xampp/htdocs/projet_diversify/viewR/PHPMailer-master/src/PHPMailer.php';
+require 'C:/xampp/htdocs/projet_diversify/viewR/PHPMailer-master/src/SMTP.php';  
+    $error = "";
 
+    // create adherent
+    $reservation = null;
+    //$voucher = null;
+    // create an instance of the controller
+    $reservationC = new ReservationC();
+    if (
+        isset($_POST["cin_client"]) &&
+		isset($_POST["date_res"]) &&		
+        isset($_POST["adulte"]) &&
+		isset($_POST["enfant"]) && 
+        isset($_POST["id_event"])
+    ) {
+        if (
+            !empty($_POST["cin_client"]) && 
+			!empty($_POST['date_res']) &&
+            !empty($_POST["adulte"]) && 
+			!empty($_POST["enfant"]) && 
+            !empty($_POST["id_event"])
+        ) {
+            $reservation = new Reservation(
+                $_POST['cin_client'],
+				$_POST['date_res'],
+                $_POST['adulte'], 
+				$_POST['enfant'],
+                $_POST['id_event']
+            );
+           /* $voucher = new Voucher(
+              $_POST['cinClient'],
+      $_POST['date_limite'],
+              $_POST['avertissement'], 
+              $_POST['code']
+          );*/
+            $reservationC->ajouterReservation($reservation);
+           // $voucherC->ajouterVoucher($voucher);
+            $mail = new PHPMailer();
+$mail->IsSMTP();
+$mail->Host = 'ssl0.ovh.net';               //Adresse IP ou DNS du serveur SMTP
+$mail->Port = 465;                          //Port TCP du serveur SMTP
+$mail->SMTPAuth = 1;                        //Utiliser l'identification
 
-     // create adherent
-     $reservation = null;
-
-     // create an instance of the controller
-     $reservationC = new ReservationC();
-     if (
-         isset($_POST["cin_client"]) &&
-         isset($_POST["date_res"]) &&		
-         isset($_POST["adulte"]) &&
-         isset($_POST["enfant"]) && 
-         isset($_POST["id_event"]) 
-     ) {
-         if (
-             !empty($_POST["cin_client"]) && 
-             !empty($_POST['date_res']) &&
-             !empty($_POST["adulte"]) && 
-             !empty($_POST["enfant"]) && 
-             !empty($_POST["id_event"])
-         ) {
-             $reservation = new Reservation(
-                 $_POST['cin_client'],
-                 $_POST['date_res'],
-                 $_POST['adulte'], 
-                 $_POST['enfant'],
-                 $_POST['id_event']
-             );
-             $reservationC->modifierReservation($reservation, $_POST["cin_client"]);
-             header('Location:afficherRES.php');
-         }
-         else
-             $error = "Missing information";
-             echo $error;
+if($mail->SMTPAuth){
+   $mail->SMTPSecure = 'ssl';               //Protocole de sécurisation des échanges avec le SMTP
+   $mail->Username   =  'youssefkhemakhem2001@gmail.com';   //Adresse email à utiliser
+   $mail->Password   =  'Youssef123456';         //Mot de passe de l'adresse email à utiliser
+}
+$mail->CharSet = 'UTF-8';
+$mail->smtpConnect();
+$mail->From       =  'youssefkhemakhem2001@gmail.com';                //L'email à afficher pour l'envoi
+$mail->FromName   = 'Contact de gmail.com';             //L'alias à afficher pour l'envoi
+$mail->Subject    =  'Mon sujet';                      //Le sujet du mail
+$mail->WordWrap   = 50; 			                   //Nombre de caracteres pour le retour a la ligne automatique
+$mail->AltBody = 'Mon message en texte brut'; 	       //Texte brut
+$mail->IsHTML(false);                                  //Préciser qu'il faut utiliser le texte brut
+if (!$mail->send()) {
+    echo $mail->ErrorInfo;
+} else{
+    echo 'Message bien envoyé';
+}
+           /* $to = "youssefkhemakhem2001@gmail.com";
+			   $subject = "mail de confirmation";
+			   $message = "<b>confirmer votre reservation :click ici.</b>"; 
+			   $header = "From:youssefkhemakhem2001@gmail.com \r\n";
+			   //$header .= "Cc:youssefkhemakhem2001@gmail.com \r\n";
+			   //$header .= "MIME-Version: 1.0\r\n";
+			   //$header .= "Content-type: text/html;\r\n";
+			   mail($to,$subject,$message,$header);*/
+            header('Location:afficherRES.php');
         }
+        else
+            $error = "Missing information";
+    }
+
     
 ?>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -72,8 +115,9 @@
     <link href="./templateF/public/assets/css/theme.css" rel="stylesheet" />
 
   </head>
-	<body>
-	<nav class="navbar navbar-expand-lg navbar-light sticky-top" data-navbar-on-scroll="data-navbar-on-scroll">
+
+    <body>
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top" data-navbar-on-scroll="data-navbar-on-scroll">
         <div class="container"><a class="navbar-brand" href="index.html"><img src="./templateF/public/assets/img/logo.svg" height="31" alt="logo" /></a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"> </span></button>
           <div class="collapse navbar-collapse border-top border-lg-0 mt-4 mt-lg-0" id="navbarSupportedContent">
@@ -88,63 +132,67 @@
           </div>
         </div>
       </nav>
-	  <button type="button" class="btn btn-primary"><a href="ajouterRES.php">Ajouter une reservation</a></button>
-		<center><h1>Liste des reservations</h1></center>
-		<table border="1" align="center">
-			<tr>
-				<th>cin_client</th>
-				<th>date_res</th>
-				<th>adulte</th>
-				<th>enfant</th>
-				<th>id_event</th>
-			</tr>
-			<?php
-				foreach($listeReservation as $reservation) {
-                    if( $_POST['cin_client'] == $reservation['cin_client'] ) {
-			?>
-			<tr>
-            <form method="POST" action="modifierRES.php">
-                <td><label><?php echo $reservation['cin_client']; ?></label>
-				<input type="hidden" value="<?php echo $reservation['cin_client']; ?>" size="1" name="name_client">
-				<td><input value="<?php echo $reservation['date_res']; ?>" name="date_res"></td>
-				<td><input value="<?php echo $reservation['adulte']; ?>" name="adulte"></td>
-				<td><input value="<?php echo $reservation['enfant']; ?>" name="enfant"></td>
-				<td><label><?php echo $reservation['id_event']; ?></label>
-				<input type="hidden" value="<?php echo $reservation['id_event']; ?>" name="id_event"></td>
-				<td>
-					
-						<input type="submit" name="Modifier" value="Modifier">
-						<input type="hidden" value=<?PHP echo $reservation['cin_client']; ?> name="cin_client">
-					</form>
-				</td>
-				<td>
-					<a href="supprimerRES.php ? cin_client=<?php echo $reservation['cin_client']; ?>">Supprimer</a>
-				</td>
-			</tr>
-            <?php } else { ?>
+        <button type="button" class="btn btn-primary"> <a href="afficherRES.php">Retour à la liste des reservations</a></button> 
+        <hr>
+        
+        <div id="error">
+            <?php echo $error; ?>
+        </div>
+        
+        <form action="" method="POST">
+            <table  align="center">
                 <tr>
-				<td><?php echo $reservation['cin_client']; ?></td>
-				<td><?php echo $reservation['date_res']; ?></td>
-				<td><?php echo $reservation['adulte']; ?></td>
-				<td><?php echo $reservation['enfant']; ?></td>
-				<td><?php echo $reservation['id_event']; ?></td>
-				<td>
-					<form method="POST" action="modifierRES.php">
-						<input type="submit" name="Modifier" value="Modifier">
-						<input type="hidden" value=<?PHP echo $reservation['cin_client']; ?> name="cin_client">
-					</form>
-				</td>
-				<td>
-					<a href="supprimerRES.php ? cin_client=<?php echo $reservation['cin_client']; ?>">Supprimer</a>
-				</td>
-			</tr>
-                <?php  }?>
-			<?php
-				}
-			?>
-		</table>
-	</body>
-	 <!-- ============================================-->
+                    <td>
+                        <label for="cin_client">cin client:
+                        </label>
+                    </td>
+                    <td><input type="text" name="cin_client" id="cin_client" maxlength="20"></td>
+                </tr>
+				<tr>
+                    <td>
+                        <label for="date_res">date reservation:
+                        </label>
+                    </td>
+                    <td><input type="text" name="date_res" id="date_res" maxlength="10"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="adulte">adulte:
+                        </label>
+                    </td>
+                    <td><input type="text" name="adulte" id="adulte" maxlength="1"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="enfant">enfant:
+                        </label>
+                    </td>
+                    <td>
+                        <input type="text" name="enfant" id="enfant" maxlength="1">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="id_event">id evenement:
+                        </label>
+                    </td>
+                    <td>
+                        <input type="text" name="id_event" id="id_event">
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="submit" value="Reserver"> 
+                    </td>
+                    <td>
+                        <input type="reset" value="Annuler" >
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </body>
+    <!-- ============================================-->
       <!-- <section> begin ============================-->
       <section class="pb-2 pb-lg-5">
 
@@ -223,6 +271,4 @@
   </body>
 
 </html>
-
-
 

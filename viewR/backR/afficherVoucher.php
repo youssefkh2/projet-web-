@@ -120,13 +120,12 @@ table.customTable thead {
                            
 		<div class="dashboard-wrapper">
             <div class="container-fluid">
-	    <!--<button><a href="ajouterRES.php">Ajouter une reservation</a></button>-->
 		<center><h1>Liste des reservations</h1></center>
 		<table border="1" align="center">
 			<tr>
 				<th>cinClient</th>
 				<th>date_limite</th>
-				<th>aavertissement</th>
+				<th>avertissement</th>
 				<th>code</th>
 			</tr>
 			<?php
@@ -145,6 +144,7 @@ table.customTable thead {
 				</td>
 				<td>
 					<a href="supprimerVoucher.php ? code=<?php echo $voucher['code']; ?>">Supprimer</a>
+                    <button><a href="ajouterVoucher.php">Ajouter</a></button>
 				</td>
 			</tr>
 			<?php

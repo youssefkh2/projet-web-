@@ -51,16 +51,18 @@
 			}
 		}
 		function ajouterVoucher($voucher){
-			$sql="INSERT INTO voucher (cinClient,date_limite, avertissement, code) 
-			VALUES (:cinClient,:date_limite, :avertissement,:code)";
+			$sql="INSERT INTO voucher (date_limite,avertissement,cinClient,codeVoucher) 
+			VALUES (:date_limite, :avertissement, :cinClient, :codeVoucher)";
 			$db = config::getConnexion();
 			try{
 				$query = $db->prepare($sql);
 				$query->execute([
-					'cinClient' => $voucher->getcinclient(),
+					
 					'date_limite' => $voucher->getdatelimite(),
 					'avertissement' => $voucher->getavertissement(),
-					'code' => $voucher->getcode()
+					'cinClient' => $voucher->getcinclient(),
+					'codeVoucher' => $voucher->getCodeVoucher()
+					//'code' => $voucher->getcode(),
 				]);			
 			}
 			catch (Exception $e){
@@ -76,7 +78,7 @@
 				$query = $db->prepare(
 					'UPDATE voucher SET 
 						date_limite=:date_limite, 
-						avertissement=:avertissement
+						avertissement=:avertissement						
 					WHERE code=:code'
 				);
 				$query->execute([

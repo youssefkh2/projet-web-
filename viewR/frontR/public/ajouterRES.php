@@ -5,9 +5,9 @@
     use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\Exception;
 
-require 'C:/xampp/htdocs/projet_diversify/viewR/PHPMailer-master/src/Exception.php';
-require 'C:/xampp/htdocs/projet_diversify/viewR/PHPMailer-master/src/PHPMailer.php';
-require 'C:/xampp/htdocs/projet_diversify/viewR/PHPMailer-master/src/SMTP.php';  
+require 'C:/xampp/htdocs/projet_diversify/viewR/frontR/public/PHPMailer-master/src/Exception.php';
+require 'C:/xampp/htdocs/projet_diversify/viewR/frontR/public/PHPMailer-master/src/PHPMailer.php';
+require 'C:/xampp/htdocs/projet_diversify/viewR/frontR/public/PHPMailer-master/src/SMTP.php';  
     $error = "";
 
     // create adherent
@@ -36,38 +36,32 @@ require 'C:/xampp/htdocs/projet_diversify/viewR/PHPMailer-master/src/SMTP.php';
 				$_POST['enfant'],
                 $_POST['id_event']
             );
-           /* $voucher = new Voucher(
-              $_POST['cinClient'],
-      $_POST['date_limite'],
-              $_POST['avertissement'], 
-              $_POST['code']
-          );*/
             $reservationC->ajouterReservation($reservation);
            // $voucherC->ajouterVoucher($voucher);
-            $mail = new PHPMailer();
-$mail->IsSMTP();
-$mail->Host = 'ssl0.ovh.net';               //Adresse IP ou DNS du serveur SMTP
-$mail->Port = 465;                          //Port TCP du serveur SMTP
-$mail->SMTPAuth = 1;                        //Utiliser l'identification
+//             $mail = new PHPMailer();
+// $mail->IsSMTP();
+// $mail->Host = 'ssl0.ovh.net';               //Adresse IP ou DNS du serveur SMTP
+// $mail->Port = 465;                          //Port TCP du serveur SMTP
+// $mail->SMTPAuth = 1;                        //Utiliser l'identification
 
-if($mail->SMTPAuth){
-   $mail->SMTPSecure = 'ssl';               //Protocole de sécurisation des échanges avec le SMTP
-   $mail->Username   =  'youssefkhemakhem2001@gmail.com';   //Adresse email à utiliser
-   $mail->Password   =  'Youssef123456';         //Mot de passe de l'adresse email à utiliser
-}
-$mail->CharSet = 'UTF-8';
-$mail->smtpConnect();
-$mail->From       =  'youssefkhemakhem2001@gmail.com';                //L'email à afficher pour l'envoi
-$mail->FromName   = 'Contact de gmail.com';             //L'alias à afficher pour l'envoi
-$mail->Subject    =  'Mon sujet';                      //Le sujet du mail
-$mail->WordWrap   = 50; 			                   //Nombre de caracteres pour le retour a la ligne automatique
-$mail->AltBody = 'Mon message en texte brut'; 	       //Texte brut
-$mail->IsHTML(false);                                  //Préciser qu'il faut utiliser le texte brut
-if (!$mail->send()) {
-    echo $mail->ErrorInfo;
-} else{
-    echo 'Message bien envoyé';
-}
+// if($mail->SMTPAuth){
+//    $mail->SMTPSecure = 'ssl';               //Protocole de sécurisation des échanges avec le SMTP
+//    $mail->Username   =  'youssefkhemakhem2001@gmail.com';   //Adresse email à utiliser
+//    $mail->Password   =  'Youssef123456';         //Mot de passe de l'adresse email à utiliser
+// }
+// $mail->CharSet = 'UTF-8';
+// $mail->smtpConnect();
+// $mail->From       =  'youssefkhemakhem2001@gmail.com';                //L'email à afficher pour l'envoi
+// $mail->FromName   = 'Contact de gmail.com';             //L'alias à afficher pour l'envoi
+// $mail->Subject    =  'Mon sujet';                      //Le sujet du mail
+// $mail->WordWrap   = 50; 			                   //Nombre de caracteres pour le retour a la ligne automatique
+// $mail->AltBody = 'Mon message en texte brut'; 	       //Texte brut
+// $mail->IsHTML(false);                                  //Préciser qu'il faut utiliser le texte brut
+// if (!$mail->send()) {
+//     echo $mail->ErrorInfo;
+// } else{
+//     echo 'Message bien envoyé';
+// }
            /* $to = "youssefkhemakhem2001@gmail.com";
 			   $subject = "mail de confirmation";
 			   $message = "<b>confirmer votre reservation :click ici.</b>"; 
@@ -76,6 +70,57 @@ if (!$mail->send()) {
 			   //$header .= "MIME-Version: 1.0\r\n";
 			   //$header .= "Content-type: text/html;\r\n";
 			   mail($to,$subject,$message,$header);*/
+
+
+        // require 'PHPMailerAutoload.php';
+
+         $mail = new PHPMailer;
+         
+         $mail->SMTPDebug = 3;                               // Enable verbose debug output
+         
+         $mail->isSMTP();                                      // Set mailer to use SMTP
+         $mail->Host = 'smtp.gmail.com';  // Specify main and backup SMTP servers
+         $mail->SMTPAuth = true;                               // Enable SMTP authentication
+         $mail->Username = 'helamoalla91@gmail.com';                 // SMTP username
+         $mail->Password = '54023788Hh';                           // SMTP password
+         //$mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
+         $mail->Port = 587;                                    // TCP port to connect to
+         
+         $mail->From='helamoalla91@gmail.com';
+         $mail->FromName="helamoalla";
+        // $mail->smtpConnect(
+// array(
+// "ssl" => array(
+// "verify_peer" => false,
+// "verify_peer_name"=> false,
+// "allow_self_signed" => true
+// )
+// )
+// );
+         $mail->addAddress('helamoalla91@gmail.com', 'helamoalla');     // Add a recipient
+        // $mail->addAddress('ellen@example.com');               // Name is optional
+        // $mail->addReplyTo('info@example.com', 'Information');
+         //$mail->addCC('cc@example.com');
+         //$mail->addBCC('bcc@example.com');
+         
+         //$mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
+        // $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
+         $mail->isHTML(true);                                  // Set email format to HTML
+         
+         $mail->Subject = 'verification';
+         $mail->Body    = 'verifier reservation test</b>';
+         $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+         mail("helamoalla91@gmail.com","test","confirmation","helamoalla91@gmail.com");
+         if(!$mail->send()) {
+             echo 'Message could not be sent.';
+             echo 'Mailer Error: ' . $mail->ErrorInfo;
+         } else {
+             echo 'Message has been sent';
+         }
+
+
+
+
             header('Location:afficherRES.php');
         }
         else
@@ -100,25 +145,25 @@ if (!$mail->send()) {
     <!-- ===============================================-->
     <!--    Favicons-->
     <!-- ===============================================-->
-    <link rel="apple-touch-icon" sizes="180x180" href="./templateF/public/assets/img/favicons/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="./templateF/public/assets/img/favicons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="./templateF/public/assets/img/favicons/favicon-16x16.png">
-    <link rel="shortcut icon" type="image/x-icon" href="./templateF/public/assets/img/favicons/favicon.png">
-    <link rel="manifest" href="./templateF/public/assets/img/favicons/manifest.json">
-    <meta name="msapplication-TileImage" content="./templateF/public/assets/img/favicons/mstile-150x150.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicons/favicon-16x16.png">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicons/favicon.png">
+    <link rel="manifest" href="assets/img/favicons/manifest.json">
+    <meta name="msapplication-TileImage" content="assets/img/favicons/mstile-150x150.png">
     <meta name="theme-color" content="#ffffff">
 
 
     <!-- ===============================================-->
     <!--    Stylesheets-->
     <!-- ===============================================-->
-    <link href="./templateF/public/assets/css/theme.css" rel="stylesheet" />
+    <link href="assets/css/theme.css" rel="stylesheet" />
 
   </head>
 
     <body>
     <nav class="navbar navbar-expand-lg navbar-light sticky-top" data-navbar-on-scroll="data-navbar-on-scroll">
-        <div class="container"><a class="navbar-brand" href="index.html"><img src="./templateF/public/assets/img/logo.svg" height="31" alt="logo" /></a>
+        <div class="container"><a class="navbar-brand" href="index.html"><img src="assets/img/logo.svg" height="31" alt="logo" /></a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"> </span></button>
           <div class="collapse navbar-collapse border-top border-lg-0 mt-4 mt-lg-0" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto">
@@ -192,56 +237,7 @@ if (!$mail->send()) {
             </table>
         </form>
     </body>
-    <!-- ============================================-->
-      <!-- <section> begin ============================-->
-      <section class="pb-2 pb-lg-5">
-
-        <div class="container">
-          <div class="row border-top border-top-secondary pt-7">
-            <div class="col-lg-3 col-md-6 mb-4 mb-md-6 mb-lg-0 mb-sm-2 order-1 order-md-1 order-lg-1"><img class="mb-4" src="./templateF/public/assets/img/logo.svg" width="184" alt="" /></div>
-            <div class="col-lg-3 col-md-6 mb-4 mb-lg-0 order-3 order-md-3 order-lg-2">
-              <p class="fs-2 mb-lg-4">Quick Links</p>
-              <ul class="list-unstyled mb-0">
-                <li class="mb-1"><a class="link-900 text-secondary text-decoration-none" href="#!">About us</a></li>
-                <li class="mb-1"><a class="link-900 text-secondary text-decoration-none" href="#!">Blog</a></li>
-                <li class="mb-1"><a class="link-900 text-secondary text-decoration-none" href="#!">Contact</a></li>
-                <li class="mb-1"><a class="link-900 text-secondary text-decoration-none" href="#!">FAQ</a></li>
-              </ul>
-            </div>
-            <div class="col-lg-3 col-md-6 mb-4 mb-lg-0 order-4 order-md-4 order-lg-3">
-              <p class="fs-2 mb-lg-4">Legal stuff</p>
-              <ul class="list-unstyled mb-0">
-                <li class="mb-1"><a class="link-900 text-secondary text-decoration-none" href="#!">Disclaimer</a></li>
-                <li class="mb-1"><a class="link-900 text-secondary text-decoration-none" href="#!">Financing</a></li>
-                <li class="mb-1"><a class="link-900 text-secondary text-decoration-none" href="#!">Privacy Policy</a></li>
-                <li class="mb-1"><a class="link-900 text-secondary text-decoration-none" href="#!">Terms of Service</a></li>
-              </ul>
-            </div>
-            <div class="col-lg-3 col-md-6 col-6 mb-4 mb-lg-0 order-2 order-md-2 order-lg-4">
-              <p class="fs-2 mb-lg-4">
-                knowing you're always on the best energy deal.</p>
-              <form class="mb-3">
-                <input class="form-control" type="email" placeholder="Enter your phone Number" aria-label="phone" />
-              </form>
-              <button class="btn btn-warning fw-medium py-1">Sign up Now</button>
-            </div>
-          </div>
-        </div><!-- end of .container-->
-
-      </section>
-      <!-- <section> close ============================-->
-      <!-- ============================================-->
-
-
-
-
-      <!-- ============================================-->
-      <!-- <section> begin ============================-->
-
-      <!-- <section> close ============================-->
-      <!-- ============================================-->
-
-
+    
     </main>
     <!-- ===============================================-->
     <!--    End of Main Content-->

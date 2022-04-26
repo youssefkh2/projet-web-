@@ -57,19 +57,19 @@
     <!-- ===============================================-->
     <!--    Favicons-->
     <!-- ===============================================-->
-    <link rel="apple-touch-icon" sizes="180x180" href="./templateF/public/assets/img/favicons/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="./templateF/public/assets/img/favicons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="./templateF/public/assets/img/favicons/favicon-16x16.png">
-    <link rel="shortcut icon" type="image/x-icon" href="./templateF/public/assets/img/favicons/favicon.png">
-    <link rel="manifest" href="./templateF/public/assets/img/favicons/manifest.json">
-    <meta name="msapplication-TileImage" content="./templateF/public/assets/img/favicons/mstile-150x150.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicons/favicon-16x16.png">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicons/favicon.png">
+    <link rel="manifest" href="assets/img/favicons/manifest.json">
+    <meta name="msapplication-TileImage" content="assets/img/favicons/mstile-150x150.png">
     <meta name="theme-color" content="#ffffff">
 
 
     <!-- ===============================================-->
     <!--    Stylesheets-->
     <!-- ===============================================-->
-    <link href="./templateF/public/assets/css/theme.css" rel="stylesheet" />
+    <link href="assets/css/theme.css" rel="stylesheet" />
 
   </head>
 	<body>
@@ -113,12 +113,12 @@
 				<input type="hidden" value="<?php echo $reservation['id_event']; ?>" name="id_event"></td>
 				<td>
 					
-						<input type="submit" name="Modifier" value="Modifier">
+						<input type="submit" name="Modifier" value="Modifier" class="btn-danger btn">
 						<input type="hidden" value=<?PHP echo $reservation['cin_client']; ?> name="cin_client">
 					</form>
 				</td>
 				<td>
-					<a href="supprimerRES.php ? cin_client=<?php echo $reservation['cin_client']; ?>">Supprimer</a>
+					<a href="supprimerRES.php ? cin_client=<?php echo $reservation['cin_client']; ?>" class="btn-sucess btn">Supprimer</a>
 				</td>
 			</tr>
             <?php } else { ?>
@@ -130,12 +130,12 @@
 				<td><?php echo $reservation['id_event']; ?></td>
 				<td>
 					<form method="POST" action="modifierRES.php">
-						<input type="submit" name="Modifier" value="Modifier">
+						<input type="submit" name="Modifier" value="Modifier"  class="btn-danger btn">
 						<input type="hidden" value=<?PHP echo $reservation['cin_client']; ?> name="cin_client">
 					</form>
 				</td>
 				<td>
-					<a href="supprimerRES.php ? cin_client=<?php echo $reservation['cin_client']; ?>">Supprimer</a>
+					<a href="supprimerRES.php ? cin_client=<?php echo $reservation['cin_client']; ?>"class="btn-sucess btn">Supprimer</a>
 				</td>
 			</tr>
                 <?php  }?>
@@ -150,7 +150,7 @@
 
         <div class="container">
           <div class="row border-top border-top-secondary pt-7">
-            <div class="col-lg-3 col-md-6 mb-4 mb-md-6 mb-lg-0 mb-sm-2 order-1 order-md-1 order-lg-1"><img class="mb-4" src="./templateF/public/assets/img/logo.svg" width="184" alt="" /></div>
+            <div class="col-lg-3 col-md-6 mb-4 mb-md-6 mb-lg-0 mb-sm-2 order-1 order-md-1 order-lg-1"><img class="mb-4" src="assets/img/logo.svg" width="184" alt="" /></div>
             <div class="col-lg-3 col-md-6 mb-4 mb-lg-0 order-3 order-md-3 order-lg-2">
               <p class="fs-2 mb-lg-4">Quick Links</p>
               <ul class="list-unstyled mb-0">
@@ -223,6 +223,3 @@
   </body>
 
 </html>
-
-
-

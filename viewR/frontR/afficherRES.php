@@ -24,14 +24,14 @@
     <link rel="icon" type="image/png" sizes="16x16" href="./templateF/public/assets/img/favicons/favicon-16x16.png">
     <link rel="shortcut icon" type="image/x-icon" href="./templateF/public/assets/img/favicons/favicon.png">
     <link rel="manifest" href="./templateF/public/assets/img/favicons/manifest.json">
-    <meta name="msapplication-TileImage" content="./templateF/public/assets/img/favicons/mstile-150x150.png">
+    <meta name="msapplication-TileImage" content="templateF/public/assets/img/favicons/mstile-150x150.png">
     <meta name="theme-color" content="#ffffff">
 
 
     <!-- ===============================================-->
     <!--    Stylesheets-->
     <!-- ===============================================-->
-    <link href="./templateF/public/assets/css/theme.css" rel="stylesheet" />
+    <link href="templateF/public/assets/css/theme.css" rel="stylesheet" />
 
   </head>
 	<body>
@@ -50,10 +50,8 @@
           </div>
         </div>
       </nav>
-	 
-
+      
 	  <button type="button" class="btn btn-primary"><a href="ajouterRES.php">Ajouter une reservation</a></button>
-	   
 		<center><h1>Liste des reservations</h1></center>
 		<table border="1" align="center">
 			<tr>
