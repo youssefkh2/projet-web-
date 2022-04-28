@@ -270,11 +270,44 @@
                 <div class="card">
                   <div class="card-body">
                 
-                        <button class="btn-primary btn"> <a href="Ajout_Sponsors.php" class="text-white"> Ajouter </a> </button>
+                        
+                        <div class="p-15 p-b-0">
+                                                    <form class="form-material" action = "recherche.php" method ="GET">
+                                                            
+                                                        
+                                                        <div class="form-group form-primary">
+                                                            <div class="col-sm-4">
+                                                            <label class="float-label"><i class="fa fa-search m-r-10"></i>Search Sponsors</label>
+                                                                <input type = "search" name ="terme" class="form-control" required="">
+                                                                
+                                                                <span class="form-bar"></span>
+                                                                
+                                                            </div>
+                                                        </div>
+                                                        <input  class="btn  btn-info waves-effect waves-light" type = "submit" name = "s" value = "Rechercher">
+                                                        <br>
+                                                        <br>
+                                                        <br>
+                                                        <br>
+                                                    </form>
+                                                </div>
+                                                <button class="btn-primary btn"> <a href="Ajout_Sponsors.php" class="text-white"> Ajouter </a> </button>
+
                          
                         
                         <br>
                         <br>
+
+                        <form method="POST" action="trieev.php">
+                                                <input type="submit"  name="trierasc" id="trierasc"  class="btn  btn-info" value="trierdesc" ></input>
+                                                <input type="submit"  name="trierdesc"  id="trierdesc"  class="btn  btn-info" value="trierasc" ></input>
+                                                
+                                            
+                                                </form>
+
+                                                
+                                                <br>
+                                                <br>
                     
         
                     <div class="#">
@@ -282,14 +315,14 @@
                       <table class="table table-bordered">
                         
                           <tr>
-                            <th>id_sp</th>
-                            <th>name_sp </th>
-                            <th>type_sp</th>
-                            <th>numtel_sp</th>
-                            <th>mail_sp</th>
-                            <th>inves_sp</th>
-                            <th>image_sp</th>
-                            <th>descrip_sp</th>
+                            <th>id</th>
+                            <th>nom </th>
+                            <th>type</th>
+                            <th>numtel</th>
+                            <th>mail</th>
+                            <th>inves</th>
+                            <th>image</th>
+                            <th>descrip</th>
                             <th>Delete</th>
                             <th>Modifier</th>
 
@@ -297,7 +330,7 @@
                             
                           </tr>
                           <?php
-				                       foreach($listesponsors as $sponsors){
+				                        foreach($listesponsors as $sponsors){
 		                              	?>
                         
                         
@@ -325,26 +358,45 @@
                       </table>
                 
                          
+                          <br>
+                         
                           
                          
-                         <br>
-                         <br>
-                     <br>
-                     <br>
-                     <br>
-                         <br>
-                     <br>
-                     <br>
-                     <br>
-                         <br>
-                     <br>
-                     <br>
-                     <hr>
-                     <hr>
-                     <hr>
+                      </div>
+
+                  
+                    
+
+                                                
+                                               
                      <div class="#">
+                          
+                     <br>
+                                                <br>
+                     
                        <table class="table table-bordered">
-                         
+                       
+                       <br>
+                                                <br>
+                       <form method="POST" action="trieev.php">
+                                                <input type="submit"  name="trierasc" id="trierasc"  class="btn  btn-info" value="trierdesc" ></input>
+                                                <input type="submit"  name="trierdesc"  id="trierdesc"  class="btn  btn-info" value="trierasc" ></input>
+                                                
+                                            
+                                                </form><br>
+                                                <br>
+                                                <br>
+                                                
+                                                
+
+                                                   
+                                                <br>
+                                                <br>
+                                                   
+                                                <br>
+                                                <br>
+                     
+
                            <tr>
                              <th>id_sp</th>
                              <th>id_event </th>
@@ -360,7 +412,7 @@
                              
                            </tr>
                            <?php
-                                  foreach($listedemande_sp as $demande_sp){
+                                   foreach($listedemande_sp as $demande_sp){
                             ?>
                          
                          
@@ -392,7 +444,6 @@
                             }
                              ?>
                        </table>
-                     </div>
                    </div>
                  </div>
                </div>

@@ -182,7 +182,7 @@
          <div class="card"></div>
          <?php echo $error; ?>
      
-     <form action="" class="form-material" method="POST">
+     <form action="contact.php" class="form-material" method="POST">
         <p class="card-description"></p>
         <form class="forms-sample">
           

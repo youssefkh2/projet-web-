@@ -616,6 +616,8 @@
                                                                 <label class="float-label">Adress_Mail</label>
                                                                 <p id="errorMR" class="erreur" ></p>
                                                             </div>
+
+                                                            
                                                             <div class="form-group form-default">
                                                                 <input type="number"  id="inves_sp" name="inves_sp" class="form-control" required=""  onblur="Inves()" maxlength="15">
                                                                 <span class="form-bar"></span>

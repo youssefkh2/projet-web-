@@ -106,6 +106,34 @@
 				die ($e->getMessage());
 			}
 		}
+		function triersponsorsDESC()
+		{
+		$sql = "SELECT * from sponsors ORDER BY  numero DESC";
+		$db = config::getConnexion();
+		try {
+		$req = $db->query($sql);
+		return $req;
+		} 
+		catch (Exception $e)
+	 	{
+		die('Erreur: ' . $e->getMessage());
+		}
+		}
+
+
+		function triersponsorsASC()
+		{
+		$sql = "SELECT * from sponsors ORDER BY numero ASC";
+		$db = config::getConnexion();
+		try {
+		$req = $db->query($sql);
+		return $req;
+		} 
+		catch (Exception $e)
+	 	{
+		die('Erreur: ' . $e->getMessage());
+		}
+	    }
 
 
 

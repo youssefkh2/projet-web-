@@ -96,6 +96,34 @@
 			}
 		}
 
+		function trierdemande_spDESC()
+		{
+		$sql = "SELECT * from demande_sp ORDER BY  num_tlf DESC";
+		$db = config::getConnexion();
+		try {
+		$req = $db->query($sql);
+		return $req;
+		} 
+		catch (Exception $e)
+	 	{
+		die('Erreur: ' . $e->getMessage());
+		}
+		}
+
+
+		function trierdemande_spASC()
+		{
+		$sql = "SELECT * from demande_sp ORDER BY num_tlf ASC";
+		$db = config::getConnexion();
+		try {
+		$req = $db->query($sql);
+		return $req;
+		} 
+		catch (Exception $e)
+	 	{
+		die('Erreur: ' . $e->getMessage());
+		}
+	    }
 
 
 
