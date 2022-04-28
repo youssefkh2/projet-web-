@@ -20,7 +20,8 @@
         isset($_POST["date"]) &&		
         isset($_POST["lieu"]) &&
         isset($_POST["heure"]) &&
-        isset($_POST["id_cat"])
+        isset($_POST["id_cat"])&&
+        isset($_POST["image"])
     ) {
         // if (
         //     !empty($_POST["nom_event"]) && 
@@ -35,7 +36,8 @@
                 $_POST["date"],
                 $_POST["lieu"], 
                 $_POST["heure"], 
-                $_POST["id_cat"]
+                $_POST["id_cat"],
+                $_POST["image"]
             );
             $evenementC->modifierEvenement($evenement, $_GET["id_event"]);
             header('Location:afficher_evenement.php');
@@ -112,7 +114,7 @@
       
         
         <hr>
-        <center> <h5>ajouter_evenement</h5></center>
+        <center> <h5>Modifier_evenement</h5></center>
         
         <div id="error">
             <?php echo $error; ?>
@@ -179,17 +181,26 @@
 				            foreach($listecategorie as $categorie){
 			            ?>
 			
-                            <option value="<?php echo $categorie['id_cat']; ?>"><?php echo  $categorie['Nom']; ?>-<?php echo $categorie['id_cat']; ?></option>
+                            <option value="<?php echo $categorie['id_cat']; ?>"><?php echo  $categorie['Nom']; ?>-<?php echo $evenement['id_cat']; ?></option>
                         <?php
 			                	}
 			            ?>
                     </select>
                     </td>
-                </tr>        
+                </tr> 
+                <tr>
+                <td>
+                        <label for="image">upload image:</label>
+                    </td>
+                    <td>
+                    <input type="file" class="form-control" id="image" name="image" value="<?php echo $evenement['image'];?>" required="">
+                            </td>
+                            </tr>       
+                <tr>       
                 <tr>
                     <td></td>
                     <td>
-                        <button class="btn btn-light" type="submit" onclick="ajout(event)"> Ajouter </button>
+                        <button class="btn btn-light" type="submit" onclick="ajout(event)"> Modifier </button>
 
                     </td>
                     

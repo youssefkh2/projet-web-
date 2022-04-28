@@ -1,15 +1,42 @@
 <?php
 include('../../../controllerE/CategorieC.php');
 include('../../../controllerE/evenementC.php');
-//require("notification.php");
-$CategorieC=new CategorieC();
-$evenementC=new evenementC();
-	$listecategorie=$CategorieC->afficherCategories(); 
-  $listeevenement=$evenementC->afficherEvenement(); 
+
+
+try
+{
+ $bdd = new PDO('mysql:host=localhost;dbname=base_de_donnees', 'root', "");
+ $bdd ->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+}
+catch(Exception $e)
+{
+  die("Une érreur a été trouvé : " . $e->getMessage());
+}
+$bdd->query("SET NAMES UTF8");
+
+if (isset($_GET["s"]) AND $_GET["s"] == "Rechercher")
+{
+ $_GET["id_cat"] = htmlspecialchars($_GET["id_cat"]); //pour sécuriser le formulaire contre les intrusions html
+ $terme = $_GET["id_cat"];
+ $terme = trim($terme); //pour supprimer les espaces dans la requête de l'internaute
+ $terme = strip_tags($terme); //pour supprimer les balises html dans la requête
+
+ if (isset($terme))
+ {
+  $terme = strtolower($terme);
+  $select_terme = $bdd->prepare("SELECT nom_event FROM evenement e INNER JOIN categories c ON e.id_cat=c.id_cat");
+  $select_terme->execute(array("%".$terme."%"));
+ }
+ else
+ {
+  $message = "Vous devez entrer votre requete dans la barre de recherche";
+ }
+}
 
 
 
 ?>
+
 <!DOCTYPE html>
 <html lang="en-US" dir="ltr">
 
@@ -62,16 +89,16 @@ $evenementC=new evenementC();
               <li class="nav-item"><a class="nav-link" aria-current="page" href="#superhero">Reservation</a></li>
               <li class="nav-item"><a class="nav-link" aria-current="page" href="#marketing">Reclamation</a></li>
               <li class="nav-item"><a class="nav-link" aria-current="page" href="#marketing"> Profil</a></li>
-              <div class="container">
-          
-
-
             </ul>
             <!--<div class="d-flex ms-lg-4"><a class="btn btn-secondary-outline" href="#!">Se Connecter</a><a class="btn btn-warning ms-3" href="#!">Deconnecter</a></div>$_COOKIE-->
-           
-                 
+           <!--
+                  <div class="input-group">
+                  <input type="text" class="form-control" placeholder="Search"  />
+                   <div class="input-group-append">
+                     
+          </div>
+        </div>-->
       </nav>
-   
       
 
       <!-- ============================================-->
@@ -81,50 +108,8 @@ $evenementC=new evenementC();
         <div class="bg-holder z-index--1 bottom-0 d-none d-lg-block" style="background-image:url(assets/img/category/shape.png);opacity:.5;">
         </div>
         <!--/.bg-holder-->
-        <div class="container">
-          <div class="p-15 p-b-0">
-          <center><form class="form-material" action = "recherche_evenement.php" method ="GET">
-                                                            
-                                                        
-                            <div class="form-group form-primary">
-                             <div class="col-sm-4">
-                                <label class="float-label"><i class="fa fa-search m-r-10"></i>Search events</label>
-                                <input type = "search" name ="terme" class="form-control" required="">
-                                                                
-                                 <span class="form-bar"></span>
-                                                                
-                                  </div>
-                                 </div>
-                                 <input  class="btn  btn-info waves-effect waves-light" type = "submit" name = "s" value = "Rechercher">
-                                  <br>
-                                  <br>
-                                  <br>
-                                  <br>
-                                  </form></center>
-                                  <div class="container">
-        
-                                  <div  align="right" >
-       
-                                  <form class="form-material" action = "filtre_evenement.php" method ="GET">
-       <label >Type d'evenement :</label>
-       
-       <select name="id_cat" id="id_cat">
-       <?php
-     foreach($listecategorie as $categorie){
-   ?>
-   <tr>
-           <option value="<?php echo $categorie['id_cat']; ?>"><?php echo $categorie['Nom']; ?></option>
-           <?php
-     }
-   ?>
-                                    <input   class="btn  btn-info waves-effect waves-light" type = "submit" name = "s" value = "Rechercher">
 
-             </select>
-             </div>
-             </form>
-       
-         
-        
+        <div class="container">
           <div class="p-15 p-b-0">
           <form method="POST" action="trieev.php">
              <input type="submit"  name="trierasc" id="trierasc"  class="btn  btn-info" value="trierasc" ></input>
@@ -155,35 +140,36 @@ $evenementC=new evenementC();
 
       -->
       <?php
-				foreach($listeevenement as $evenement){
-          
-			?>
+                                                          while($terme_trouve = $select_terme->fetch())
+                                                          {
+                               
+		                              	?>
       <table border="2" align="center">
         <!--<td rowspan="4">image</td>-->
         
           <tr>
       <tr>
-				<th><?php echo $evenement['nom_event']; ?></th>
+				<th><?php echo $terme_trouve['nom_event']; ?></th>
         
-        <td rowspan="4"><?php echo'<img src="photoEv/'.$evenement['image'].'"width="200;" height="120" alt="image">' ?></td>
+        <td rowspan="4"><?php echo'<img src="photoEv/'.$terme_trouve['image'].'"width="200;" height="120" alt="image">' ?></td>
         <td rowspan="4"> 
          
-          <button class="btn-warning btn"> <a href="detaille_event.php?id_event=<?php echo $evenement['id_event'] ; ?>" class="text-white"> plus de détaille</a> </button>
-          <button class="btn-success btn"> <a href="modifier_evenement.php?id_event=<?php echo $evenement['id_event'] ; ?>" class="text-white"> Update </a> </button>
-          <button class="btn-danger btn"> <a href="supprimer_evenement.php?id_event=<?php echo $evenement['id_event'] ; ?>" class="text-white"> Delete </a>  </button>
+          <button class="btn-warning btn"> <a href="detaille_event.php?id_event=<?php echo $terme_trouve['id_event'] ; ?>" class="text-white"> plus de détaille</a> </button>
+          <button class="btn-success btn"> <a href="modifier_evenement.php?id_event=<?php echo $terme_trouve['id_event'] ; ?>" class="text-white"> Update </a> </button>
+          <button class="btn-danger btn"> <a href="supprimer_evenement.php?id_event=<?php echo $terme_trouve['id_event'] ; ?>" class="text-white"> Delete </a>  </button>
 					
         </td>
 			</tr>
       
      
 			<tr>
-        <td><?php echo $evenement['date']; ?></td>
+        <td><?php echo $terme_trouve['date']; ?></td>
       </tr>
       <tr>
-        <td><?php echo $evenement['lieu']; ?></td>
+        <td><?php echo $terme_trouve['lieu']; ?></td>
       </tr>
       <tr>
-        <td><?php echo $evenement['heure']; ?></td>
+        <td><?php echo $terme_trouve['heure']; ?></td>
         
       </tr>
         </tr>
@@ -193,17 +179,15 @@ $evenementC=new evenementC();
        
       </table>
       </tr>
-      <?php
-      
-				}
-       
-			?>	
+      <?php  }
+                                                      $select_terme->closeCursor();
+                                                        ?>	
       <hr>
       	<div class="text-center"><a class="btn btn-warning" role="button" href="ajouter_evenement.php">ajouter Evenement</a></div>
         </div><!-- end of .container
         <!--
-          <td> <button class="btn-success btn"> <a href="modifier_categorie.php?id_cat=<?php echo $categorie['id_cat'] ; ?>" class="text-white"> Update </a> </button> </td>
-          <td> <button class="btn-danger btn"> <a href="supprimer_categorie.php?id_cat=<?php echo $categorie['id_cat'] ; ?>" class="text-white"> Delete </a>  </button> </td>
+          <td> <button class="btn-success btn"> <a href="modifier_categorie.php?id_cat=<?php echo $terme_trouve['id_cat'] ; ?>" class="text-white"> Update </a> </button> </td>
+          <td> <button class="btn-danger btn"> <a href="supprimer_categorie.php?id_cat=<?php echo $terme_trouve['id_cat'] ; ?>" class="text-white"> Delete </a>  </button> </td>
 					->
 					</form>
 

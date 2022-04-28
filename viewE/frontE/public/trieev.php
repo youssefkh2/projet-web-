@@ -1,14 +1,35 @@
 <?php
-include('../../../controllerE/CategorieC.php');
-include('../../../controllerE/evenementC.php');
-//require("notification.php");
-$CategorieC=new CategorieC();
-$evenementC=new evenementC();
-	$listecategorie=$CategorieC->afficherCategories(); 
-  $listeevenement=$evenementC->afficherEvenement(); 
+  
+  include('../../../controllerE/CategorieC.php');
+  include('../../../controllerE/evenementC.php');
+   
+  $CategorieC=new CategorieC();
+    $error = "";
+
+    $evenement = null;
+
+    $evenementC = new evenementC();
+    $listecategorie=$CategorieC->afficherCategories(); 
+
+	$listeevenement=$evenementC->afficherEvenement(); 
+
+
+    if(isset($_POST['trierdesc']))
+    {
+    $listeevenement=$evenementC->triereventsDESC();
+    session_start();
+    }
+    else {
+        $listeevenement=$evenementC->triereventsASC();
+        session_start();
+    }
 
 
 
+    
+
+
+    
 ?>
 <!DOCTYPE html>
 <html lang="en-US" dir="ltr">
@@ -62,16 +83,16 @@ $evenementC=new evenementC();
               <li class="nav-item"><a class="nav-link" aria-current="page" href="#superhero">Reservation</a></li>
               <li class="nav-item"><a class="nav-link" aria-current="page" href="#marketing">Reclamation</a></li>
               <li class="nav-item"><a class="nav-link" aria-current="page" href="#marketing"> Profil</a></li>
-              <div class="container">
-          
-
-
             </ul>
             <!--<div class="d-flex ms-lg-4"><a class="btn btn-secondary-outline" href="#!">Se Connecter</a><a class="btn btn-warning ms-3" href="#!">Deconnecter</a></div>$_COOKIE-->
            
-                 
+                  <div class="input-group">
+                  <input type="text" class="form-control" placeholder="Search"  />
+                   <div class="input-group-append">
+                     
+          </div>
+        </div>
       </nav>
-   
       
 
       <!-- ============================================-->
@@ -81,57 +102,36 @@ $evenementC=new evenementC();
         <div class="bg-holder z-index--1 bottom-0 d-none d-lg-block" style="background-image:url(assets/img/category/shape.png);opacity:.5;">
         </div>
         <!--/.bg-holder-->
-        <div class="container">
-          <div class="p-15 p-b-0">
-          <center><form class="form-material" action = "recherche_evenement.php" method ="GET">
-                                                            
-                                                        
-                            <div class="form-group form-primary">
-                             <div class="col-sm-4">
-                                <label class="float-label"><i class="fa fa-search m-r-10"></i>Search events</label>
-                                <input type = "search" name ="terme" class="form-control" required="">
-                                                                
-                                 <span class="form-bar"></span>
-                                                                
-                                  </div>
-                                 </div>
-                                 <input  class="btn  btn-info waves-effect waves-light" type = "submit" name = "s" value = "Rechercher">
-                                  <br>
-                                  <br>
-                                  <br>
-                                  <br>
-                                  </form></center>
-                                  <div class="container">
-        
-                                  <div  align="right" >
-       
-                                  <form class="form-material" action = "filtre_evenement.php" method ="GET">
-       <label >Type d'evenement :</label>
-       
-       <select name="id_cat" id="id_cat">
-       <?php
-     foreach($listecategorie as $categorie){
-   ?>
-   <tr>
-           <option value="<?php echo $categorie['id_cat']; ?>"><?php echo $categorie['Nom']; ?></option>
-           <?php
-     }
-   ?>
-                                    <input   class="btn  btn-info waves-effect waves-light" type = "submit" name = "s" value = "Rechercher">
 
-             </select>
-             </div>
-             </form>
-       
-         
-        
+        <div class="container">
           <div class="p-15 p-b-0">
           <form method="POST" action="trieev.php">
              <input type="submit"  name="trierasc" id="trierasc"  class="btn  btn-info" value="trierasc" ></input>
              <input type="submit"  name="trierdesc"  id="trierdesc"  class="btn  btn-info" value="trierdesc" ></input>
           </form>
          </div>
+        <div  align="right" >
         
+          <label>Type d'evenement :</label>
+          
+          <select >
+          <?php
+				foreach($listecategorie as $categorie){
+			?>
+			<tr>
+              <option value="type"><?php echo $categorie['Nom']; ?></option>
+              <?php
+				}
+			?>
+                </select>
+                </div>
+          
+            
+          <h2 class="mb-2 fs-7 fw-bold">Evenement</h2>
+          
+          <input type="text" data-spec="input-field-input-element" class="eds-field-styled__input" id="locationPicker" name="locationPicker" value="" role="combobox" aria-expanded="false" aria-autocomplete="list" autocomplete="off" tabindex="0" placeholder="Locliser votre place">
+          <br>
+          <br>
           <div class="row">
             <br>
             <!--
@@ -167,8 +167,7 @@ $evenementC=new evenementC();
         
         <td rowspan="4"><?php echo'<img src="photoEv/'.$evenement['image'].'"width="200;" height="120" alt="image">' ?></td>
         <td rowspan="4"> 
-         
-          <button class="btn-warning btn"> <a href="detaille_event.php?id_event=<?php echo $evenement['id_event'] ; ?>" class="text-white"> plus de détaille</a> </button>
+        <button class="btn-warning btn"> <a href="detaille_event.php?id_event=<?php echo $evenement['id_event'] ; ?>" class="text-white"> plus de détaille</a> </button>
           <button class="btn-success btn"> <a href="modifier_evenement.php?id_event=<?php echo $evenement['id_event'] ; ?>" class="text-white"> Update </a> </button>
           <button class="btn-danger btn"> <a href="supprimer_evenement.php?id_event=<?php echo $evenement['id_event'] ; ?>" class="text-white"> Delete </a>  </button>
 					
@@ -194,9 +193,7 @@ $evenementC=new evenementC();
       </table>
       </tr>
       <?php
-      
 				}
-       
 			?>	
       <hr>
       	<div class="text-center"><a class="btn btn-warning" role="button" href="ajouter_evenement.php">ajouter Evenement</a></div>

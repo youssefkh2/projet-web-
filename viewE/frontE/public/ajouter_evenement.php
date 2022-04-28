@@ -2,19 +2,22 @@
  include('../../../modelE/evenement.php');
  include('../../../controllerE/evenementC.php');
  include('../../../modelE/categorie.php');
- 
+ //require("notification.php");
  include('../../../controllerE/CategorieC.php');
 
  $error = "";
 
+ 
  // create adherent
  $evenement=null;
-
+ //$cmpt=0;
+ //$cmpt=$evenement->getcmpt();
+ //$evenement->aff($cmpt);
  $evenementC = new evenementC();
 
  // create an instance of the controller
  $CategorieC=new CategorieC();
-
+$cmpt=0;
 
  $listecategorie=$CategorieC->afficherCategories(); 
  
@@ -23,31 +26,34 @@
      isset($_POST["date"]) &&		
      isset($_POST["lieu"]) &&
      isset($_POST["heure"]) &&
-     isset($_POST["id_cat"])
+     isset($_POST["id_cat"]) &&
+     isset($_POST["image"])
  ) {
      if (
          !empty($_POST["nom_event"]) && 
          !empty($_POST["date"]) &&
          !empty($_POST["lieu"]) && 
          !empty($_POST["heure"])  && 
-         !empty($_POST["id_cat"])
+         !empty($_POST["id_cat"]) && 
+         !empty($_POST["image"])
      ) {
          $evenement = new evenement(
-             $_POST["id_event"],
+            
              $_POST["nom_event"],
              $_POST["date"],
              $_POST["lieu"], 
              $_POST["heure"], 
-             $_POST["id_cat"]
+             $_POST["id_cat"],
+             $_POST["image"]
          );
          $evenementC->ajouterEvenement($evenement);
-
+         
          header('Location:afficher_evenement.php');
      }
      else
          $error = "Missing information";
  }
-
+ 
 ?>
 
 
@@ -185,13 +191,22 @@
 			            ?>
                     </select>
                     </td>
-                </tr>        
+                </tr> 
+                <tr>
+                <td>
+                        <label for="image">upload image:</label>
+                    </td>
+                    <td>
+                    <input type="file" class="form-control" id="image" name="image" required="">
+                            </td>
+                            </tr>       
                 <tr>
                     <td></td>
                     <td>
                         <button class="btn btn-light" type="submit" onclick="ajout(event)"> Ajouter </button>
 
                     </td>
+                    
                     
                 </tr>
             </table>

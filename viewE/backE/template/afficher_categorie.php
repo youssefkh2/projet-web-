@@ -1,7 +1,10 @@
 <?php
 include('../../../controllerE/CategorieC.php');
+
 	$CategorieC=new CategorieC();
-	$listecategorie=$CategorieC->afficherCategories(); 
+	$listecategorie=$CategorieC->afficherCategories();
+
+  
 ?>
 <!DOCTYPE html>
 <html lang="en">

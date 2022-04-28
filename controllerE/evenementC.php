@@ -8,6 +8,7 @@
 			try{
 				$liste = $db->query($sql);
 				return $liste;
+				
 			}
 			catch(Exception $e){
 				die('Erreur:'. $e->getMeesage());
@@ -26,23 +27,29 @@
 			}
 		}
         function ajouterEvenement($evenement){
-			$sql="INSERT INTO evenement (id_event,nom_event,date,lieu,heure,id_cat) 
-			VALUES (:id_event,:nom_event,:date,:lieu,:heure,:id_cat)";
+			$sql="INSERT INTO evenement (nom_event,date,lieu,heure,id_cat,image) 
+			VALUES (:nom_event,:date,:lieu,:heure,:id_cat,:image)";
+				
 			$db = config::getConnexion();
 			try{
 				$query = $db->prepare($sql);
 				$query->execute([
-					'id_event' => $evenement->getid_event(),
+					
 					'nom_event' => $evenement->getnom(),
 					'date' => $evenement->getdate(),
 					'lieu' => $evenement->getlieu(),
 					'heure' => $evenement->getheure(),
 					'id_cat' => $evenement->getid_cat(),
-				]);			
+					'image' => $evenement->getimage(),
+					
+					
+				]);
+					
 			}
 			catch (Exception $e){
 				echo 'Erreur: '.$e->getMessage();
-			}			
+			}	
+			return 1;		
 		}
 		function recupererEvenement($id_event){
 			$sql="SELECT * from evenement WHERE id_event=$id_event";
@@ -67,7 +74,8 @@
 						date= :date,
 						lieu= :lieu,
 						heure= :heure,
-						id_cat= :id_cat
+						id_cat= :id_cat,
+						image= :image
 					WHERE id_event= :id_event'
 				);
 				$query->execute([
@@ -78,6 +86,7 @@
 					'date' => $evenement->getdate(),
 					'heure' => $evenement->getheure(),
 					'id_cat' => $evenement->getid_cat(),
+					'image' => $evenement->getimage(),
 					
 					
 				]);
@@ -86,6 +95,54 @@
 				$e->getMessage();
 			}
 		}
+
+
+		function triereventsDESC()
+		{
+		$sql = "SELECT * from evenement ORDER BY date DESC";
+		$db = config::getConnexion();
+		try {
+		$req = $db->query($sql);
+		return $req;
+		} 
+		catch (Exception $e)
+	 	{
+		die('Erreur: ' . $e->getMessage());
+		}
+		}
+
+
+
+
+
+		function triereventsASC()
+		{
+		$sql = "SELECT * from evenement ORDER BY date ASC";
+		$db = config::getConnexion();
+		try {
+		$req = $db->query($sql);
+		return $req;
+		} 
+		catch (Exception $e)
+	 	{
+		die('Erreur: ' . $e->getMessage());
+		}
+	    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

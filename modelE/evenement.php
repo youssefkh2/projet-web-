@@ -9,17 +9,19 @@ class evenement{
     private $lieu=null;
     private $heure=null;
     private $id_cat=null;
+    private $image=null;
+   // public $cmpt=null;
 
 
 
-
-    function __construct($nom_event ,$date ,$lieu ,$heure,$id_cat)
+    function __construct($nom_event ,$date ,$lieu ,$heure,$id_cat,$image)
     {
         $this->nom_event=$nom_event;
         $this->date=$date;
         $this->lieu=$lieu;
         $this->heure=$heure;
         $this->id_cat=$id_cat;
+        $this->image=$image;
     }
 
     function getid_event(){
@@ -40,6 +42,17 @@ class evenement{
     function getid_cat(){
         return $this->id_cat;
     }
+    function getimage(){
+        return $this->image;
+    }
+    function getcmpt(){
+        
+        return $this->cmpt;
+    }
+    /*function aff($cmpt){
+        
+        echo $cmpt++;
+    }*/
 
     
     function setnom(string $nom_event){
@@ -56,6 +69,9 @@ class evenement{
     }
     function setid_cat(int $id_cat){
         $this->id_cat=$id_cat;
+    }
+    function setimage(string $image){
+        $this->image=$image;
     }
 
 }

@@ -303,8 +303,7 @@
                   <!--<button class="btn btn-light" href="event.html"><-</button>-->
                     <!--<h4 class="card-title">Ajouter Categorie</h4>-->
                     <p class="card-description"></p>
-
-                    <button><a href="afficher_categorie.php">Retour à la liste des cruds</a></button>
+                    <button  class="btn btn-warning waves-effect waves-light"><a href="afficher_categorie.php">Retour à la liste des cruds</a></button>
                     <hr>
         
         <div id="error">
@@ -340,7 +339,7 @@
                            
                       <input type="submit" value="Modifier" class="btn btn-warning waves-effect waves-light">
                      <!-- <button class="btn btn-light" type="submit"> Modifier </button>-->
-                     <button  class="btn btn-primary btn-lg btn-block" type="submit"><a href="afficher_categorie.php">modifier</a></button>
+                    <!-- <button  class="btn btn-primary btn-lg btn-block" type="submit"><a href="afficher_categorie.php">modifier</a></button>-->
 
                       <!--<button class="btn btn-light" href="index.html">Cancel</button>-->
                       
