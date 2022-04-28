@@ -1,0 +1,116 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+ 
+    }
+
+    
+
+
+h2{
+color: rgb(95, 2, 2);
+}
+
+
+
+nav li{
+list-style: none;
+display: inline-block;
+padding-right: 10px;
+padding-left: 10px;
+
+}
+nav li span{
+padding-left: 5px;
+}
+
+.carte ion-icon{
+vertical-align: bottom;
+font-size: 20px;
+padding-right: 5px;
+}
+.carte a {
+    padding: 15px;
+    border-radius: 50px;
+background-color: #7bee9d;
+color:#333;
+font-size: large;
+cursor: pointer;
+text-decoration: none;
+}
+.product-header{
+background-color: transparent;
+width: 100%;
+max-width: 650px;
+display: flex;
+justify-content: flex-start;
+border-bottom: 5px solid rgb(122, 3, 3);
+margin: 0 auto;
+}
+.product-title{
+width: 45%;
+}
+.price{
+width:15% ;
+border-bottom: 2px solid rgb(122, 3, 3);
+display: flex;
+align-items: center;
+}
+.total{
+width:10% ;
+border-bottom: 2px solid rgb(122, 3, 3);
+display: flex;
+align-items: center;
+}
+.products{
+width:45% ;
+border-bottom: 2px solid rgb(122, 3, 3);
+display: flex;
+align-items: center;
+justify-content:space-around;
+padding: 10px 0;
+}
+.quantity{
+background-color: transparent;
+width:30% ;
+border-bottom: 2px solid rgb(122, 3, 3);
+display: flex;
+align-items: center;
+}
+.products-container ion-icon{
+font-size: 20px;
+color: blue;
+margin-left: 10px;
+margin-right: 10px;
+cursor: pointer;
+}
+h4{
+margin: auto;
+margin-left:430%;
+display: inline-block;
+}
+input{
+   padding: 15px 25px;
+font-size: 24px;
+border-radius: 12px;
+color: #fff;
+background-color: rgb(107, 7, 7);
+text-transform: uppercase;
+box-shadow: 0 9px rgb(160, 2, 2);
+border: none;
+cursor: pointer;
+position: relative;
+top:-20px ;
+
+}
+input:hover{
+    box-shadow: 0 6px  rgb(160, 2, 2) ;
+   transform: translateY(3px);
+}
+input:active{
+    box-shadow: 0 6px  rgb(160, 2, 2) ;
+   transform: translateY(7px);  
+
+}
