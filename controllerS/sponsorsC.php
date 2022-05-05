@@ -134,6 +134,24 @@
 		die('Erreur: ' . $e->getMessage());
 		}
 	    }
+		function recherche($search_value)
+        {
+            $sql="SELECT * FROM sponsors WHERE nom LIKE '$search_value' OR id LIKE '$search_value' OR numero LIKE '$search_value' ";
+        
+            //global $db;
+            $db =Config::getConnexion();
+        
+            try{
+                $result=$db->query($sql);
+        
+                return $result;
+        
+            }
+            catch (Exception $e){
+                die('Erreur: '.$e->getMessage());
+            }
+        }
+
 
 
 

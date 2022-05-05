@@ -8,6 +8,15 @@
   
   $listesponsors=$sponsorsC->affichersponsors(); 
   $listedemande_sp=$demande_spC->afficherdemande_sp(); 
+
+
+  if(isset($_GET['recherche']))
+  {
+      $search_value=$_GET["recherche"];
+      $listesponsors=$sponsorsC->recherche($search_value);
+  }
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -272,24 +281,29 @@
                 
                         
                         <div class="p-15 p-b-0">
-                                                    <form class="form-material" action = "recherche.php" method ="GET">
-                                                            
-                                                        
+                                                   
+                                                    
+                                                    <center><div class="form-group form-primary">
+                            
+                                                        <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" method="get" action="gestion_sponsors.php">
                                                         <div class="form-group form-primary">
-                                                            <div class="col-sm-4">
-                                                            <label class="float-label"><i class="fa fa-search m-r-10"></i>Search Sponsors</label>
-                                                                <input type = "search" name ="terme" class="form-control" required="">
-                                                                
+                                                        
+                                                        <label class="float-label"><i class="fa fa-search m-r-10"></i>Search : </label>
+                                                                <input type="text" class="form-control"  aria-label="Search"  name="recherche" required="">
                                                                 <span class="form-bar"></span>
-                                                                
+                                                         
+                                                                    <button class="btn  btn-info waves-effect waves-light" type="submit" value="Chercher">
+                                                                        <i class="fas fa-search fa-sm"></i>
+                                                                    </button>
+                                                                </div></div></div>
                                                             </div>
-                                                        </div>
-                                                        <input  class="btn  btn-info waves-effect waves-light" type = "submit" name = "s" value = "Rechercher">
-                                                        <br>
-                                                        <br>
-                                                        <br>
-                                                        <br>
-                                                    </form>
+                                                            </div>
+                                 </div>
+                                                        </form>
+                                                    </th></center>
+
+
+                                  <br><br><br><br><br>
                                                 </div>
                                                 <button class="btn-primary btn"> <a href="Ajout_Sponsors.php" class="text-white"> Ajouter </a> </button>
 

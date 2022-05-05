@@ -141,20 +141,44 @@ $listesponsors=$sponsorsC->affichersponsors();
      </tr>
        
      </table>-->
+     <?php
+$bdd= new PDO('mysql:host=localhost;dbname=ali;charset=utf8','root','');
+$commandeParPage =1;
+$commandeTotalReq=$bdd->query('SELECT id  FROM sponsors');
+$commandeTotal=$commandeTotalReq->rowCount();
+
+$pagesTotales=ceil($commandeTotal/$commandeParPage);
+if(isset($_GET['page']) AND !empty($_GET['page']) AND $_GET['page'] > 0 AND $_GET['page']<= $pagesTotales){
+$_GET['page']=intval($_GET['page']);
+$pageCourante=$_GET['page'];
+}else{
+    $pageCourante=1;                                      
+}
+$depart=($pageCourante-1)*$commandeParPage;
+
+?> 
+ <center><button onclick="makePDF()" class="btn btn-primary" >Print</button> </center>
+
      <center><h3>Les sponsors dispo</h3></center>
      <hr>
      <?php
-				foreach($listesponsors as $sponsors){
-          
-			?>
-      <table border="1" align="center">
+    $listecommande=$bdd->query('SELECT * FROM sponsors ORDER BY id DESC LIMIT '.$depart.','.$commandeParPage);
+
+    foreach($listecommande as $sponsors){
+      
+  ?>
+     <table  class="table table-hover">
+      <table border="1" align="center" id="imprimer">
+        
         <!--<td rowspan="4">image</td>-->
         <td class="centre" headers="legende_1" style="width:500px; height:50px;">
      
 </td>
         
           <tr>
+            
       <tr>
+        
 				<th><?php echo $sponsors['nom']; ?></th>
         
         <td><?php echo'<img src="../photosp/'.$sponsors['image'].'"width="100;" height="120" alt="image">'  ?></td>
@@ -172,12 +196,12 @@ $listesponsors=$sponsorsC->affichersponsors();
       <tr>
         <td><?php echo $sponsors['type']; ?></td>
         
-      </tr>
-        </tr>
+     
         
         
         
        
+      </table>
       </table>
       
       </tr>
@@ -187,8 +211,15 @@ $listesponsors=$sponsorsC->affichersponsors();
       <?php
 				}
 			?>
-
-
+                   <?php 
+        for($i=1;$i<=$pagesTotales;$i++){
+            if($i == $pageCourante){
+            echo $i.' ';
+            }else{
+            echo '<a href="afficher_sponsors.php?page='.$i.'">'.$i.'</a> ';
+        }
+    }
+        ?>
 
 
 
@@ -238,6 +269,17 @@ $listesponsors=$sponsorsC->affichersponsors();
   <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
   <script src="vendors/fontawesome/all.min.js"></script>
   <script src="assets/js/theme.js"></script>
+  <script>
+            function makePDF(){
+                var printMe=document.getElementById('imprimer');
+                var wme=window.open("","","width:700,height:900");
+                wme.document.write(printMe.outerHTML);
+                wme.document.close();
+                wme.focus();
+                wme.print();
+                wme.close();
+            }
+        </script>
 
   <link
     href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&amp;family=Volkhov:wght@700&amp;display=swap"

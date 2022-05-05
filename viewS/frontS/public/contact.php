@@ -90,7 +90,7 @@ require_once '../phpqrcode/qrlib.php';
 $path='../qrimages/';
 $file=$path.uniqid().".png";
 
-$text="id event:".$_POST["id_event"]."  votre email:<br>".$_POST["email"]." votre numero:".$_POST["num_tlf"];
+$text="id event:".$_POST["id_event"]."  votre email:".$_POST["email"]." votre numero:".$_POST["num_tlf"];
 QRcode::png($text,$file,'L',10,2); 
 
 $htmlContent = ' 
