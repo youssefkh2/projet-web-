@@ -3,6 +3,12 @@
   include_once 'C:/xampp/htdocs/projet_diversify/modelR/voucherMod.php';
     include_once 'C:/xampp/htdocs/projet_diversify/controllerR/reservationC.php'; 
     include_once 'C:/xampp/htdocs/projet_diversify/controllerR/voucherC.php'; 
+    use PHPMailer\PHPMailer\PHPMailer;
+    use PHPMailer\PHPMailer\Exception;
+
+require 'C:/xampp/htdocs/projet_diversify/viewR/frontR/public/PHPMailer-master/src/Exception.php';
+require 'C:/xampp/htdocs/projet_diversify/viewR/frontR/public/PHPMailer-master/src/PHPMailer.php';
+require 'C:/xampp/htdocs/projet_diversify/viewR/frontR/public/PHPMailer-master/src/SMTP.php';  
 	$reservationC=new ReservationC();
 	$listeReservation=$reservationC->afficherReservation(); 
     $error = "";
@@ -36,13 +42,55 @@
                 $_POST['date_limite'],
                 $_POST['avertissement'], 
                 $_POST['cinClient'],
-                $voucherC->random_code(5)
+             $_POST['codeVoucher']=$voucherC->random_code(5)
 				//$_POST['code']
             ); 
     
            // $voucher = new Voucher( $_POST['cinClient'], $_POST['code'], $_POST['avertissement'], $_POST['date_limite']);
             $voucherC->ajouterVoucher($voucher);
             header('Location:afficherVoucher.php');
+           // $Vou =$_POST['codeVoucher'];
+         
+            $datel = $_POST['date_limite'];
+
+
+            $mail = new PHPMailer;
+         
+            $mail->SMTPDebug = 3;                               // Enable verbose debug output
+            
+            $mail->isSMTP();                                      // Set mailer to use SMTP
+            $mail->Host = 'smtp.gmail.com';  // Specify main and backup SMTP servers
+            $mail->SMTPAuth = true;                               // Enable SMTP authentication
+            $mail->Username = 'helamoalla91@gmail.com';                 // SMTP username
+            $mail->Password = '54023788Hh';                           // SMTP password
+            //$mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
+            $mail->Port = 587;                                    // TCP port to connect to
+            
+            $mail->From='helamoalla91@gmail.com';
+            $mail->FromName="helamoalla";
+            $mail->addAddress('helamoalla91@gmail.com', 'helamoalla');     // Add a recipient
+            $mail->isHTML(true);                                  // Set email format to HTML
+            if( $_POST['avertissement']=='3')
+            {
+            $mail->Subject = 'AVERTISSEMENT';
+            $mail->Body    = 'vous avez 3 avertissements , le prochain avertissement votre compte sera supprimer ';
+          }else
+          {
+            $mail->Subject = 'CONFIRMATION';
+            $mail->Body    = 'voici votre Voucher '.$_POST['codeVoucher'].', svp ne depasser pas votre date limite :'.$datel.'';
+          }
+            $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+            mail("helamoalla91@gmail.com","test","confirmation","helamoalla91@gmail.com");
+            if(!$mail->send()) {
+                echo 'Message could not be sent.';
+                echo 'Mailer Error: ' . $mail->ErrorInfo;
+            } else {
+                echo 'Message has been sent';
+            }
+          
+
+ 
+
         }
         else
             $error = "Missing information";

@@ -82,7 +82,7 @@ require 'C:/xampp/htdocs/projet_diversify/viewR/frontR/public/PHPMailer-master/s
 
 
 
-          // header('Location:afficherRES.php');
+        
         }
         else
             $error = "Missing information";
