@@ -108,6 +108,9 @@
 				}
 			?>
 		</table>
+    <!-- ******************map************ -->
+    <!-- <iframe src="https://www.google.com/maps/embed?pb=!4v1651049728573!6m8!1m7!1sESzPSkd8izUM20rVxtRe1w!2m2!1d49.89145791095085!2d2.30341598383541!3f249.78960366092497!4f0!5f0.7820865974627469" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe> -->
+      <iframe src="https://www.google.com/maps/embed?pb=!4v1651049728573!6m8!1m7!1sESzPSkd8izUM20rVxtRe1w!2m2!1d49.89145791095085!2d2.30341598383541!3f249.78960366092497!4f0!5f0.7820865974627469" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
 	</body>
 	 <!-- ============================================-->
       <!-- <section> begin ============================-->

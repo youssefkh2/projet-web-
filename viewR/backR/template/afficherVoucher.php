@@ -295,7 +295,7 @@
                         <!--<input type="submit" value="ajouter"/>-->
         
         <button class="btn-success btn"><a href="ajouterVoucher.php">Ajouter</a></button> <hr>
-        <table border="1" align="center">
+        <table border="1" align="center" id="tab">
 			<tr>
 				<th>cinClient</th>
 				<th>date_limite</th>
@@ -321,14 +321,16 @@
 					</form>
 				</td>
 				<td>
-					<a href="supprimerVoucher.php ? code=<?php echo $voucher['code']; ?>" class="btn-danger btn">Supprimer</a>
-                  
+					<a href="supprimerVoucher.php ? code=<?php echo $voucher['code']; ?>" class="btn-danger btn">Supprimer</a>    
 				</td>
 			</tr>
 			<?php
 				}
 			?>
 		</table>
+    <!-- **********pdf********* -->
+    <button type="button" class="btn btn-sm btn-outline-secondary" onclick=" window.print();">Export</button>
+    <!-- <input type="button" value="Create PDF" id="btPrint" onclick="createPDF()" /> -->
                     </div>
                   </div>
                 </div>
@@ -371,4 +373,30 @@
     <script src="assets/js/dashboard.js"></script>
     <!-- End custom js for this page -->
   </body>
+  <!-- <script>
+    function createPDF() {
+        var sTable = document.getElementById('tab').innerHTML;
+
+        var style = "<style>";
+        style = style + "table {width: 100%;font: 17px Calibri;}";
+        style = style + "table, th, td {border: solid 1px #DDD; border-collapse: collapse;";
+        style = style + "padding: 2px 3px;text-align: center;}";
+        style = style + "</style>";
+
+        // CREATE A WINDOW OBJECT.
+        var win = window.open('', '', 'height=700,width=700');
+
+        win.document.write('<html><head>');
+        win.document.write('<title>Profile</title>');   // <title> FOR PDF HEADER.
+        win.document.write(style);          // ADD STYLE INSIDE THE HEAD TAG.
+        win.document.write('</head>');
+        win.document.write('<body>');
+        win.document.write(sTable);         // THE TABLE CONTENTS INSIDE THE BODY TAG.
+        win.document.write('</body></html>');
+
+        win.document.close(); 	// CLOSE THE CURRENT WINDOW.
+
+        win.print();    // PRINT THE CONTENTS.
+    }
+</script> -->
 </html>

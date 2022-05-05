@@ -9,7 +9,7 @@ require 'C:/xampp/htdocs/projet_diversify/viewR/frontR/public/PHPMailer-master/s
 require 'C:/xampp/htdocs/projet_diversify/viewR/frontR/public/PHPMailer-master/src/PHPMailer.php';
 require 'C:/xampp/htdocs/projet_diversify/viewR/frontR/public/PHPMailer-master/src/SMTP.php';  
     $error = "";
-
+    $sum=0;
     // create adherent
     $reservation = null;
     //$voucher = null;
@@ -37,31 +37,11 @@ require 'C:/xampp/htdocs/projet_diversify/viewR/frontR/public/PHPMailer-master/s
                 $_POST['id_event']
             );
             $reservationC->ajouterReservation($reservation);
-           // $voucherC->ajouterVoucher($voucher);
-//             $mail = new PHPMailer();
-// $mail->IsSMTP();
-// $mail->Host = 'ssl0.ovh.net';               //Adresse IP ou DNS du serveur SMTP
-// $mail->Port = 465;                          //Port TCP du serveur SMTP
-// $mail->SMTPAuth = 1;                        //Utiliser l'identification
-
-// if($mail->SMTPAuth){
-//    $mail->SMTPSecure = 'ssl';               //Protocole de sécurisation des échanges avec le SMTP
-//    $mail->Username   =  'youssefkhemakhem2001@gmail.com';   //Adresse email à utiliser
-//    $mail->Password   =  'Youssef123456';         //Mot de passe de l'adresse email à utiliser
-// }
-// $mail->CharSet = 'UTF-8';
-// $mail->smtpConnect();
-// $mail->From       =  'youssefkhemakhem2001@gmail.com';                //L'email à afficher pour l'envoi
-// $mail->FromName   = 'Contact de gmail.com';             //L'alias à afficher pour l'envoi
-// $mail->Subject    =  'Mon sujet';                      //Le sujet du mail
-// $mail->WordWrap   = 50; 			                   //Nombre de caracteres pour le retour a la ligne automatique
-// $mail->AltBody = 'Mon message en texte brut'; 	       //Texte brut
-// $mail->IsHTML(false);                                  //Préciser qu'il faut utiliser le texte brut
-// if (!$mail->send()) {
-//     echo $mail->ErrorInfo;
-// } else{
-//     echo 'Message bien envoyé';
-// }
+            header('Location:afficherRES.php');
+            $sum = $_POST['adulte']+$_POST['enfant'];
+            // while ($reservation = fetch($reservation['adulte']) || $reservation = fetch( $reservation['enfant'])){ $sum = $reservation['adulte']+ $reservation['enfant']; } 
+            // echo $sum;
+     
            /* $to = "youssefkhemakhem2001@gmail.com";
 			   $subject = "mail de confirmation";
 			   $message = "<b>confirmer votre reservation :click ici.</b>"; 
@@ -70,9 +50,6 @@ require 'C:/xampp/htdocs/projet_diversify/viewR/frontR/public/PHPMailer-master/s
 			   //$header .= "MIME-Version: 1.0\r\n";
 			   //$header .= "Content-type: text/html;\r\n";
 			   mail($to,$subject,$message,$header);*/
-
-
-        // require 'PHPMailerAutoload.php';
 
          $mail = new PHPMailer;
          
@@ -88,27 +65,11 @@ require 'C:/xampp/htdocs/projet_diversify/viewR/frontR/public/PHPMailer-master/s
          
          $mail->From='helamoalla91@gmail.com';
          $mail->FromName="helamoalla";
-        // $mail->smtpConnect(
-// array(
-// "ssl" => array(
-// "verify_peer" => false,
-// "verify_peer_name"=> false,
-// "allow_self_signed" => true
-// )
-// )
-// );
          $mail->addAddress('helamoalla91@gmail.com', 'helamoalla');     // Add a recipient
-        // $mail->addAddress('ellen@example.com');               // Name is optional
-        // $mail->addReplyTo('info@example.com', 'Information');
-         //$mail->addCC('cc@example.com');
-         //$mail->addBCC('bcc@example.com');
-         
-         //$mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
-        // $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
          $mail->isHTML(true);                                  // Set email format to HTML
          
          $mail->Subject = 'verification';
-         $mail->Body    = 'verifier reservation test</b>';
+         $mail->Body    = 'verifier reservation, nombre de personne :</b>'. $sum.' veuillez attendre un autre email de confirmation et un voucher ';
          $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
          mail("helamoalla91@gmail.com","test","confirmation","helamoalla91@gmail.com");
          if(!$mail->send()) {
@@ -121,7 +82,7 @@ require 'C:/xampp/htdocs/projet_diversify/viewR/frontR/public/PHPMailer-master/s
 
 
 
-            header('Location:afficherRES.php');
+          // header('Location:afficherRES.php');
         }
         else
             $error = "Missing information";
