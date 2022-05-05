@@ -5,6 +5,22 @@
  //require("notification.php");
  include('../../../controllerE/CategorieC.php');
 
+
+//  $ch = curl_init();
+
+//  // Configuration de l'URL et d'autres options
+//  curl_setopt($ch, CURLOPT_URL, "https://api.twilio.com/2010-04-01/Accounts/ACe5f01f2604e6c79921a828f318371afb/Messages.json");
+//  curl_setopt($ch, CURLOPT_POST, 1);// set post data to true
+//  curl_setopt($ch, CURLOPT_POSTFIELDS,"Body=Hello from Twilio&from=+19794919653&to=+21699640992");   // post data
+//  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+//  // Récupération de l'URL et affichage sur le navigateur
+//  curl_exec($ch);
+
+//  // Fermeture de la session cURL
+//  curl_close($ch);
+ 
+
  $error = "";
 
  
@@ -47,7 +63,7 @@ $cmpt=0;
              $_POST["image"]
          );
          $evenementC->ajouterEvenement($evenement);
-         
+        // envoie_sms();
          header('Location:afficher_evenement.php');
      }
      else
@@ -56,7 +72,11 @@ $cmpt=0;
  
 ?>
 
-
+<style>
+  .error{
+    color: red;
+}
+</style>
 
 
 
@@ -134,7 +154,7 @@ $cmpt=0;
             <?php echo $error; ?>
         </div>
         
-        <form action="" method="POST">
+        <form action="" method="POST" id="maForm">
 
             <table border="1" align="center">
                <tr>
@@ -151,7 +171,7 @@ $cmpt=0;
                         <label for="date">Date de l'evenement:</label>
                     </td>
                     <td>
-                        <input type="date" name="date" id="date" required="" required="" onblur="saisirdate_recuperation()" >
+                        <input type="date" name="date" id="date" required="" onblur="saisirdate_recuperation()" >
                         <p id="errorDF" class="erreur" ></p>
                     </td>
                 </tr> 
@@ -160,7 +180,7 @@ $cmpt=0;
                         <label for="lieu">lieu:</label>
                     </td>
                     <td>
-                        <input type="text" name="lieu" id="lieu" maxlength="20" required=""  onblur="saisirNom2()">
+                        <input type="text" name="lieu" id="lieu" maxlength="20" required="" onblur="saisirNom2()">
                         <p id="errorName2" class="erreur" ></p>
                     </td>
                     
@@ -170,7 +190,7 @@ $cmpt=0;
                         <label for="heure">heure:</label>
                     </td>
                     <td>
-                        <input type="text" name="heure" id="heure" required="" required="">
+                        <input type="text" name="heure" id="heure" required="">
                     </td>
                 </tr>
                 
@@ -181,6 +201,7 @@ $cmpt=0;
                     </td>
                     <td>
                     <select name="id_cat" id="id_cat" required="">
+                    <option value=""></option>
                         <?php
 				            foreach($listecategorie as $categorie){
 			            ?>
@@ -199,9 +220,21 @@ $cmpt=0;
                     <td>
                     <input type="file" class="form-control" id="image" name="image" required="">
                             </td>
-                            </tr>       
+                            </tr>  
+                            <tr>
+                                <td>
+                                <label for="numero">ton numero de telephone:</label>
+                                </td>
+                                <td>
+                                <input type="text" name="numero" id="numero" required="" onblur="numBer()">
+                                <p id="errorNBM" class="erreur" ></p>
+
+                            </td>
+                            </tr>     
                 <tr>
-                    <td></td>
+                    <td> 
+                        
+                    </td>
                     <td>
                         <button class="btn btn-light" type="submit" onclick="ajout(event)"> Ajouter </button>
 
@@ -234,6 +267,20 @@ $cmpt=0;
 
 
     <script>
+ function numBer() {
+    var nbm = document.getElementById('numero').value;
+
+    if (nbm.length !== 8) {
+        document.getElementById("errorNBM").textContent = "il faut avoir 8 chiffres";
+        document.getElementById("errorNBM").style.color = "red";
+        return 0;
+    }
+    else
+    {
+        document.getElementById("errorNBM").textContent = "Number Verified";
+        document.getElementById("errorNBM").style.color = "green";
+            return 1;
+    }}
 
 function saisirNom() {
                 var name = document.getElementById('nom_event').value;
@@ -299,11 +346,66 @@ function saisirNom2() {
 
 
 
-    function ajout(event) {
-    if ( saisirNom() == 0 || saisirNom2() == 0   || saisirdate_recuperation()==0  )
-    
-        event.preventDefault();
+    function ajout(event) 
+    {
+        if ( saisirNom() == 0 || saisirNom2() == 0   || saisirdate_recuperation()==0 || numBer() == 0)
+        {
+                    event.preventDefault();
+                   envoie_sms();
+                }
+                
     }
+    function envoie_sms()
+    {
+         
+       // var nbm = document.getElementById('numero').value;
+        //message="bonjour";  
+        const url="https://api.twilio.com/2010-04-01/Accounts/ACe5f01f2604e6c79921a828f318371afb/Messages.json"
+        var myheaders = new Headers({
+            'Content-Type' : 'application/x-www-form-urlencoded',
+            'Authorization' : 'basic '+btoa("ACe5f01f2604e6c79921a828f318371afb:caef005615b3e6b504ace07a5f12fd7f")
+        })
+        
+        var myBody='To=+21699640992&From=+19794919653&body='+message;
+        var myData={
+            method : 'POST',
+            headers : myheaders,
+            body : myBody
+        }
+        fetch(url, myData);
+        // //alert (nbm+' - '+message);
+    
+    }
+    
+    // // _____Envoie SMS_____
+    // function envoie_sms(){
+    // var myForm = document.getElementById('maForm');
+    // maForm.addEventListener('submit',function(){
+    //     var nbm = document.getElementById('numero').value;
+    //     message="bonjour";  
+    //     const url="https://api.twilio.com/2010-04-01/Accounts/ACe5f01f2604e6c79921a828f318371afb/Messages.json"
+    //     var myheaders = new Headers({
+    //         'Content-Type' : 'application/x-www-form-urlencoded',
+    //         'Authorization' : 'basic '+btoa("ACe5f01f2604e6c79921a828f318371afb:caef005615b3e6b504ace07a5f12fd7f")
+    //     })
+    //     var myBody='To='+nbm+'&From=+19794919653&body='+message,
+    //     var myData={
+    //         method : 'POST',
+    //         headers : myheaders,
+    //         body : myBody
+    //     }
+    //     fetch(url, myData);
+    //     //alert (nbm+' - '+message);
+
+    //}
+
+
+    // // Création d'une nouvelle ressource cURL
+
+
+    // })
+
+
         </script>
   </body>
 

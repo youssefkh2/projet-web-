@@ -130,7 +130,40 @@
 	    }
 
 
-
+		function recherche($search_value)
+        {
+            $sql="SELECT * FROM evenement WHERE nom_event LIKE '$search_value' OR heure LIKE '$search_value' OR lieu LIKE '$search_value' ";
+        
+            //global $db;
+            $db =Config::getConnexion();
+        
+            try{
+                $result=$db->query($sql);
+        
+                return $result;
+        
+            }
+            catch (Exception $e){
+                die('Erreur: '.$e->getMessage());
+            }
+        }
+		function recherchetype($search_value)
+        {
+			$sql="SELECT * FROM evenement e INNER JOIN categories c ON e.id_cat=c.id_cat WHERE Nom LIKE '$search_value' ";
+        
+            //global $db;
+            $db =Config::getConnexion();
+        
+            try{
+                $result=$db->query($sql);
+        
+                return $result;
+        
+            }
+            catch (Exception $e){
+                die('Erreur: '.$e->getMessage());
+            }
+        }
 
 
 

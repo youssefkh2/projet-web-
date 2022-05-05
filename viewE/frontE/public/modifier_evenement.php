@@ -177,11 +177,12 @@
                     </td>
                     <td>
                     <select name="id_cat" id="id_cat" value="<?php echo $evenement['id_cat'];?>" required="">
+                    <option value=""></option>
                         <?php
 				            foreach($listecategorie as $categorie){
 			            ?>
 			
-                            <option value="<?php echo $categorie['id_cat']; ?>"><?php echo  $categorie['Nom']; ?>-<?php echo $evenement['id_cat']; ?></option>
+                            <option value="<?php echo $evenement['id_cat']; ?>"><?php echo  $categorie['Nom']; ?>-<?php echo $categorie['id_cat']; ?></option>
                         <?php
 			                	}
 			            ?>

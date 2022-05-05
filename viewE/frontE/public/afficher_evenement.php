@@ -7,8 +7,17 @@ $evenementC=new evenementC();
 	$listecategorie=$CategorieC->afficherCategories(); 
   $listeevenement=$evenementC->afficherEvenement(); 
 
-
-
+  
+  if(isset($_GET['recherche']))
+  {
+      $search_value=$_GET["recherche"];
+      $listeevenement=$evenementC->recherche($search_value);
+  }
+  if(isset($_GET['rechercheT']))
+  {
+      $search_value=$_GET["rechercheT"];
+      $listeevenement=$evenementC->recherchetype($search_value);
+  }
 ?>
 <!DOCTYPE html>
 <html lang="en-US" dir="ltr">
@@ -83,45 +92,54 @@ $evenementC=new evenementC();
         <!--/.bg-holder-->
         <div class="container">
           <div class="p-15 p-b-0">
-          <center><form class="form-material" action = "recherche_evenement.php" method ="GET">
-                                                            
+          
+                                  
+                                  <br>
+
+                                  <center><div class="form-group form-primary">
+                            
+                                                        <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" method="get" action="afficher_evenement.php">
+                                                        <div class="form-group form-primary">
                                                         
-                            <div class="form-group form-primary">
-                             <div class="col-sm-4">
-                                <label class="float-label"><i class="fa fa-search m-r-10"></i>Search events</label>
-                                <input type = "search" name ="terme" class="form-control" required="">
-                                                                
-                                 <span class="form-bar"></span>
-                                                                
-                                  </div>
+                                                        <label class="float-label"><i class="fa fa-search m-r-10"></i>Search events</label>
+                                                                <input type="text" class="form-control"  aria-label="Search"  name="recherche" required="">
+                                                                <span class="form-bar"></span>
+                                                         
+                                                                    <button class="btn btn-primary" type="submit" value="Chercher">
+                                                                        <i class="fas fa-search fa-sm"></i>
+                                                                    </button>
+                                                                </div></div></div>
+                                                            </div>
+                                                            </div>
                                  </div>
-                                 <input  class="btn  btn-info waves-effect waves-light" type = "submit" name = "s" value = "Rechercher">
-                                  <br>
-                                  <br>
-                                  <br>
-                                  <br>
-                                  </form></center>
+                                                        </form>
+                                                    </th></center>
+
+
+                                  <br><br><br><br><br>
+                                  
                                   <div class="container">
         
-                                  <div  align="right" >
-       
-                                  <form class="form-material" action = "filtre_evenement.php" method ="GET">
+        <div  align="right" >
        <label >Type d'evenement :</label>
        
-       <select name="id_cat" id="id_cat">
+       <select id="mydropdown" onchange="redirect()">
+       <option value=""></option>
        <?php
+       
      foreach($listecategorie as $categorie){
    ?>
    <tr>
-           <option value="<?php echo $categorie['id_cat']; ?>"><?php echo $categorie['Nom']; ?></option>
+           <option value="<?php echo $categorie['Nom']; ?>" name="rechercheT" aria-label="Search"><?php echo $categorie['Nom']; ?></option>
            <?php
      }
    ?>
-                                    <input   class="btn  btn-info waves-effect waves-light" type = "submit" name = "s" value = "Rechercher">
 
              </select>
              </div>
              </form>
+
+
        
          
         
@@ -156,6 +174,7 @@ $evenementC=new evenementC();
       -->
       <?php
 				foreach($listeevenement as $evenement){
+          
           
 			?>
       <table border="2" align="center">
@@ -237,7 +256,14 @@ $evenementC=new evenementC();
     <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
     <script src="vendors/fontawesome/all.min.js"></script>
     <script src="assets/js/theme.js"></script>
-
+            <script>
+              function redirect(){
+                var select = document.getElementById('mydropdown');
+                var value = select.options[select.selectedIndex].value;
+                var url = window.location.href.split('?')[0] 
+                window.location.href = url + "?rechercheT="+value  ;
+              }
+            </script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&amp;family=Volkhov:wght@700&amp;display=swap" rel="stylesheet">
   </body>
 

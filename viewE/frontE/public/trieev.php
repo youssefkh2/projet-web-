@@ -26,7 +26,11 @@
 
 
 
-    
+    if(isset($_GET['recherche']))
+  {
+      $search_value=$_GET["recherche"];
+      $listeevenement=$evenementC->recherche($search_value);
+  }
 
 
     
@@ -86,12 +90,8 @@
             </ul>
             <!--<div class="d-flex ms-lg-4"><a class="btn btn-secondary-outline" href="#!">Se Connecter</a><a class="btn btn-warning ms-3" href="#!">Deconnecter</a></div>$_COOKIE-->
            
-                  <div class="input-group">
-                  <input type="text" class="form-control" placeholder="Search"  />
-                   <div class="input-group-append">
-                     
-          </div>
-        </div>
+                 
+
       </nav>
       
 
@@ -102,6 +102,34 @@
         <div class="bg-holder z-index--1 bottom-0 d-none d-lg-block" style="background-image:url(assets/img/category/shape.png);opacity:.5;">
         </div>
         <!--/.bg-holder-->
+        <br>
+
+<center><div class="form-group form-primary">
+
+                      <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" method="get" action="afficher_evenement.php">
+                      <div class="form-group form-primary">
+                      
+                      <label class="float-label"><i class="fa fa-search m-r-10"></i>Search events</label>
+                              <input type="text" class="form-control"  aria-label="Search"  name="recherche" required="">
+                              <span class="form-bar"></span>
+                       
+                                  <button class="btn btn-primary" type="submit" value="Chercher">
+                                      <i class="fas fa-search fa-sm"></i>
+                                  </button>
+                              </div></div></div>
+                          </div>
+                          </div>
+</div>
+                      </form>
+                  </th></center>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+
+
+
 
         <div class="container">
           <div class="p-15 p-b-0">
@@ -129,8 +157,7 @@
             
           <h2 class="mb-2 fs-7 fw-bold">Evenement</h2>
           
-          <input type="text" data-spec="input-field-input-element" class="eds-field-styled__input" id="locationPicker" name="locationPicker" value="" role="combobox" aria-expanded="false" aria-autocomplete="list" autocomplete="off" tabindex="0" placeholder="Locliser votre place">
-          <br>
+          
           <br>
           <div class="row">
             <br>
