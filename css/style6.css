@@ -534,7 +534,18 @@ footer{
   .contact3-form-btn:hover:before {
     opacity: 0;
   }
-  
+  .pagination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+  }
+
+  .pagination a.active {
+    background-color: dodgerblue;
+    color: white;
+  }
   /*------------------------------------------------------------------
   [ Responsive ]*/
   

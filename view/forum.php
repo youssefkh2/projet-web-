@@ -1,11 +1,14 @@
-
-
 <?php
                             require '../Controller/topicC.php';
 
                         
                             $TopicC = new topicC();
-                            $Topics = $TopicC->affichertopic();
+                            $topic = $TopicC->affichertopic();
+                           
+                         
+                            
+
+
                         ?>
 
     <html lang="en">
@@ -17,30 +20,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-    <!-- ===============================================-->
-    <!--    Document Title-->
-    <!-- ===============================================-->
-    <title>Diversify | Design Agency Landing Page UI</title>
-
-
-    <!-- ===============================================-->
-    <!--    Favicons-->
-    <!-- ===============================================-->
-    <link rel="apple-touch-icon" sizes="180x180" href="../assets/assets/img/favicons/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="../assets/assets/img/favicons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="../assets/assets/img/favicons/favicon-16x16.png">
-    <link rel="shortcut icon" type="image/x-icon" href="../assets/assets/img/favicons/favicon.png">
-    <link rel="manifest" href="../assets/assets/img/favicons/manifest.json">
-    <meta name="msapplication-TileImage" content="../assets/assets/img/favicons/mstile-150x150.png">
-    <meta name="theme-color" content="#ffffff">
-    <link rel="stylesheet" href="../css/style6.css">
-
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css" >
+    <!-- Icon -->
+    <link rel="stylesheet" type="text/css" href="assets/fonts/line-icons.css">
+    <!-- Slicknav -->
+    <link rel="stylesheet" type="text/css" href="assets/css/slicknav.css">
+    <!-- Nivo Lightbox -->
+    <link rel="stylesheet" type="text/css" href="assets/css/nivo-lightbox.css" >
+    <!-- Animate -->
+    <link rel="stylesheet" type="text/css" href="assets/css/animate.css">
+    <!-- Main Style -->
+    <link rel="stylesheet" type="text/css" href="assets/css/main.css">
+    <!-- Responsive Style -->
+    <link rel="stylesheet" type="text/css" href="assets/css/responsive.css">
+    <!--<link rel="stylesheet"  href="event.css">-->
+  
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 
     <!-- ===============================================-->
     <!--    Stylesheets-->
     <!-- ===============================================-->
     <link href="../assets/assets/css/theme.css" rel="stylesheet" />
+    <link href="../css/style6.css" rel="stylesheet" />
 
   
 
@@ -115,6 +119,9 @@ if (isset($_POST["submit"])) {
         }
     }
     ?>
+
+
+
     
     <div class="subforum">
                 <div class="subforum-title">
@@ -148,49 +155,100 @@ if (isset($_POST["submit"])) {
                 </div>
             </div>
             
- <?php                 
+ <?php     require_once ('C:/xampp/htdocs/forum10-master/view/PHP-MySQLi-Database-Class-master/MysqliDb.php');
+
+/*$db = new MysqliDb ('localhost', 'root', '', 'forum');
+$topic = $db->get('topic');
+
+if (isset($_POST['like'])) {
+ $post_id = $_POST['like'];
+ $query = Array('like_count'=>$db->inc(1));
+ $db->where('idtopic', $post_id);
+ $db->update('topic', $query);
+
+ $db->insert('likes', Array('post_id'=>$post_id));
+
+}  */             
                 
-                    $i=0;
-                        foreach ($Topics as $Topic) {
-                         $i++;  
-            
-                ?>
-                
-            <div class="subforum">
-                <div class="subforum-title">
-                    <h1><a href="comments.php?id=<?= $Topic['idtopic']; ?>">Topic <?php echo $i; ?>: <?= $Topic['titre']; ?></a></h1>
-                </div>
-                <div class="subforum-row">
-                    <div class="subforum-icon subforum-column center">
-                    <i class="fas fa-comment"></i>
-                    </div>
-                    <div class="subforum-description subforum-column">
-                        <h4><?= $Topic['description']; ?></h4>
-                        <p><?= $Topic['contenu']; ?></p>
-                    </div>
-                    
-                    
-                </div>
-            
-                <?php
-                        }
-                    
-                ?>
-       
-    
                
-            </div>
 
 
       
+           
 
-   
+for( $i=0; $i<3; $i++) { 
+  ?>
+  <div class="subforum">
+                  <div class="subforum-title">
+                      <h1><a href="comments.php?id=<?= $topic[$i]['idtopic']?>"><?php echo $topic[$i]["titre"] ?></a></h1>
+                      <i id="htopic" > <?= $topic[$i]['view_count']?></i>
+                  </div>
+                  <div class="subforum-row">
+                      <div class="subforum-icon subforum-column center">
+                      <i class="fas fa-comment"></i>
+                      </div>
+                      <div class="subforum-description subforum-column">
+                        
+                          <p><?= $topic[$i]['contenu']; ?></p>
+                          
+                         
+                         
+                      </div>
+                      
+                      
+                  </div>
+  
+  
+  
+  
+  
+                     <?php }  ?>
+  
+             
+          </div>
 
  
+    <div class="row">
+          
+      
+          
+          <ul class="pagination pagination-lg justify-content-end">
+            <li class="page-item active ">
+              <a
+                class="page-link active drounded-0 mr-3 shadow-sm border-top-0 border-left-0"
+                href="forum.php"
+                tabindex="-1"
+                >1</a
+              >
+            </li>
+            <li class="page-item ">
+              <a
+                class="page-link disabled rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark"
+                href="paggination1.php"
+                >2</a
+              >
+            </li>
+            <li class="page-item ">
+              <a
+                class="page-link disable rounded-0 shadow-sm border-top-0 border-left-0 text-dark"
+                href="paggination2.php"
+                >3</a
+              >
+            </li>
+          </ul>
+        </div>
 
-    <section class="pb-2 pb-lg-5">
+<!-- <div class="pagination">
+  <a href="forum.php">&laquo;</a>
+  <a class="active" href="forum.php">1</a>
+  <a   href="paggintion1.php">2</a>
+  <a href="paggination2.php">3</a>
+  <a href="paggination2.php">&raquo;</a>
+</div> -->
 
+                      </div>
 <div class="container">
+  
   <div class="row border-top border-top-secondary pt-7">
     <div class="col-lg-3 col-md-6 mb-4 mb-md-6 mb-lg-0 mb-sm-2 order-1 order-md-1 order-lg-1"><img class="mb-4" src="../assets/assets/img/logo.svg" width="184" alt="" /></div>
     <div class="col-lg-3 col-md-6 mb-4 mb-lg-0 order-3 order-md-3 order-lg-2">
@@ -275,6 +333,50 @@ if (isset($_POST["submit"])) {
 <script src="../assets/vendors/fontawesome/all.min.js"></script>
 <script src="../assets/assets/js/theme.js"></script>
 
+
+
+<script>
+const hhttp=document.querySelectorAll("#htopic");
+console.log(hhttp);
+for(let i=0; i<hhttp.length; i++){
+  if(hhttp[i].innerHTML>20)
+  hhttp[i].style.color = "red";
+}
+</script>
+
+
+
+
+<!------dislike script---->
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript">
+$(".like").click(function(){
+    let button = $(this)
+    let post_id = $(button).data('postid')
+$.post("forum.php",
+{
+    'like' : post_id
+},
+function(data, status){
+    $(button).html("Like (" + ($(button).data('likes')+1) + ")")
+    $(button).data('likes', $(button).data('likes')+1)
+});
+});
+
+$(".view").click(function(){
+    let i = $(this)
+    let post_id = $(i).data('postid')
+$.post("forum.php",
+{
+    'view' : post_id
+},
+function(data, status){
+    $(i).html("view (" + ($(i).data('views')+1) + ")")
+    $(i).data('views', $(i).data('views')+1)
+});
+});
+</script>
+-end dislike like script-- -->
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&amp;family=Volkhov:wght@700&amp;display=swap" rel="stylesheet">
 </body>
 
