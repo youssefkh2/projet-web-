@@ -1,6 +1,6 @@
 <?php
-    include '../../../modelS/sponsors.php';
-    include_once '../../../controllerS/sponsorsC.php';
+    include '../../../model/demande.php';
+    include_once '../../../controller/demandeC.php';
  
     
    
@@ -8,64 +8,58 @@
     $error = "";
 
     // create product
-    $sponsors = null;
+    $demande_sp = null;
 
     // create an instance of the controller
-    $sponsorsC = new sponsorsC();
+    $demande_spC = new demande_spC();
+   
+
   
 
-	 /*die(var_dump(isset($_POST["nom"]) &&
-   isset($_POST["type"]) && 
-   isset($_POST["numero"])&& 
-   isset($_POST["email"])&& 
-   isset($_POST["inves"])&& 
-   isset($_POST["image"])&& 
-   isset($_POST["descrip"])&& !empty($_POST["nom"]) &&
-   !empty($_POST["type"]) && 
-   !empty($_POST["numero"])&& 
-   !empty($_POST["email"])&& 
-   !empty($_POST["inves"])&&
-   !empty($_POST["image"])&&
-   !empty($_POST["descrip"])));*/
+	 
 
     if (
-        // isset($_POST["id"]) &&
-		isset($_POST["nom"]) &&
-        isset($_POST["type"]) && 
-        isset($_POST["numero"])&& 
+        // isset($_POST["id_sp"]) &&
+		isset($_POST["id_event"]) &&
+        isset($_POST["num_tlf"]) && 
         isset($_POST["email"])&& 
-        isset($_POST["inves"])&& 
-        isset($_POST["image"])&& 
-        isset($_POST["descrip"])
+        isset($_POST["date_debut"])&& 
+        isset($_POST["date_fin"])
+     
         
 
     ) {
-        /*if (
-           
-			// !empty($_POST["id"]) &&
-            !empty($_POST["nom"]) &&
-            !empty($_POST["type"]) && 
-            !empty($_POST["numero"])&& 
+       
+            if (
+            
+           // !empty($_POST["id_sp"]) &&
+            !empty($_POST["id_event"]) && 
+            !empty($_POST["num_tlf"])&& 
             !empty($_POST["email"])&& 
-            !empty($_POST["inves"])&&
-            !empty($_POST["image"])&&
-            !empty($_POST["descrip"])
+            !empty($_POST["date_debut"])&&
+            !empty($_POST["date_fin"])
            
-        ) {*/
-            $sponsors = new sponsors(
-            $_GET["id"],
-            $_POST["nom"],
-            $_POST["type"],
-            $_POST["numero"],
-            $_POST["email"],
-            $_POST["inves"],
-            $_POST["image"],
-            $_POST["descrip"],
+           
+           
            
 
-            );
-            $sponsorsC->modifiersponsors($sponsors, $_GET["id"]);
+            ){
+          $demande_sp=new demande_sp(
+            $_POST["id_sp"],
+            $_POST["id_event"],
+            $_POST["num_tlf"],
+            $_POST["email"],
+           $_POST["date_debut"],
+            $_POST["date_fin"]
+           
+
+          );
+          $demande_spC->modifierdemande_sp($demande_sp, $_POST["id_sp"]);
             header('Location:gestion_sponsors.php');
+        }
+        else 
+        $error="error";
+            
         
     }
 
@@ -341,7 +335,7 @@
         <div class="col-12 grid-margin stretch-card">
           <div class="card">
             <div class="card-body">
-            <h5>Modfier Sponsors</h5>
+            <h5>Modfier demande_sp</h5>
             <footer class="footer">
 
 </footer>
@@ -352,8 +346,8 @@
                                                     </div>
                                                     <?php
                                                     
-                                                        if (isset($_GET['id'])){
-                                                            $sponsors = $sponsorsC->recuperersponsors($_GET['id']);
+                                                        if (isset($_POST['id_sp'])){
+                                                            $demande_sp = $demande_spC->recupererdemande_sp($_POST['id_sp']);
 				
 		                                            ?>
                                                 
@@ -365,68 +359,63 @@
                                                             
                                                           
                                                             <div class="form-group form-default">
-                                                            <label class="float-label">Nom sponsors</label>
-                                                                <input type="text"  id="nom" name="nom" onblur="saisirNom()" value="<?php echo $sponsors['nom']; ?>" class="form-control" required="">
+                                                            <label class="float-label">id_sp </label>
+                                                                <input type="number"  id="id_sp"   name="id_sp" type ="hidden" value="<?php echo $demande_sp['id_sp']; ?>" class="form-control" required="">
                                                                 <span class="form-bar"></span>
                                                               
-                                                                <p id="errornom" class="erreur" ></p>
+                                                                <p id="errorid" class="erreur" ></p>
                                                             </div>
-                                                            <div class="form-group row">
-                                                                    <label class="col-sm-2 col-form-label">Select Type</label>
-                                                                    <div class="col-sm-10">
-                                                                        <select name="type" id="type" class="form-control">
-                                                                        <option value="<?php echo $sponsors['type']; ?>"><?php echo $sponsors['type']; ?></option>
-                                                                        <option value="Gold">Gold</option>
-                                                                        <option value="Platinum">Platinum</option>
-                                                                         <option value="Standard">Standard</option>
-                                                                        </select>
-                                                                    </div>
+                                                            <div class="form-group form-default">
+                                                            <label class="float-label">id_event </label>
+                                                                <input type="number"  id="id_event"  name="id_event" value="<?php echo $demande_sp['id_event']; ?>" class="form-control" required="">
+                                                                <span class="form-bar"></span>
+                                                              
+                                                                <p id="errorid" class="erreur" ></p>
                                                             </div>
+                                                           
                                                            
                                                            
                                                             <div class="form-group form-default">
                                                             <label class="float-label">Numero_Tel</label>
-                                                                <input type="number"  id="numero"  onblur="numBer()" name="numero" value="<?php echo $sponsors['numero']; ?>"  class="form-control"required="" maxlength="11">
+                                                                <input type="number"  id="num_tlf" name ="num_tlf"  onblur="numBer()" name="num_tlf" value="<?php echo $demande_sp['num_tlf']; ?>"  class="form-control"required="" maxlength="11">
                                                                 <span class="form-bar"></span>
                                                                
                                                                 <p id="errornumero" class="erreur" ></p>
                                                             </div>
                                                             <div class="form-group form-default">
                                                             <label class="float-label">Adress_Mail</label>
-                                                                <input type="email"  id="email" name="email"  onblur="saisiremail()" value="<?php echo $sponsors['email'];?>" class="form-control" required="" placeholder="      @esprit.com">
+                                                                <input type="email"  id="email" name="email"  onblur="saisiremail()" value="<?php echo $demande_sp['email'];?>" class="form-control" required="" >
                                                                 <span class="form-bar"></span>
                                                                
                                                                 <p id="erroremail" class="erreur" ></p>
                                                             </div>
                                                             
                                                             <div class="form-group form-default">
-                                                            <label class="float-label">Enter Investissement</label>
-                                                                <input type="number"  id="inves" onblur="Inves()"name="inves" value="<?php echo $sponsors['inves']; ?>" class="form-control" required="">
+                                                            <label class="float-label">date_debut</label>
+                                                                <input type="date"  id="date_debut" name="date_debut" value="<?php echo $demande_sp['date_debut']; ?>" class="form-control" required="">
                                                                 <span class="form-bar"></span>
                                                                
                                                                 <p id="errorinv" class="erreur" ></p>
                                                             </div>
+                                                            
                                                             <div class="form-group form-default">
-                                                            <!-- <label class="float-label">Enter Image</label>
-                                                            <br> -->
-                                                                <input type="file"  id="image" name="image"  value="" class="form-control" required="">
+                                                            <label class="float-label">date_fin</label>
+                                                                <input type="date"  id="date_fin" name="date_fin" value="<?php echo $demande_sp['date_fin']; ?>" class="form-control" required="">
                                                                 <span class="form-bar"></span>
-                                                                
+                                                               
+                                                                <p id="errorinv" class="erreur" ></p>
                                                             </div>
-                                                         
-                                                            <div class="form-group form-default">
-                                                            <label>Description</label>
-                                                            <br>
-                                                                <textarea rows="5" cols="33" name="descrip" class="form-control" placeholder="Description Sponsors....." required=""><?php echo $sponsors['descrip']; ?></textarea>
-                                                            </div>
+                                                            
+                                                           
                                                        
                     
                                                             
                                                             
                    
-                    <button  class="btn btn-primary btn-lg btn-block" type="submit"><a href="gestion_sponsors.php">modifier</a></button>
+                    <!-- <input  class="btn btn-primary btn-lg btn-block" type="submit"value="modifier"> -->
                
                     <button class="btn btn-light"><a href="gestion_sponsors.php">Cancel</button>
+                    <button  class="btn btn-primary btn-lg btn-block" type="submit"><a href="gestion_sponsors.php">modifier</a></button>
                   </form>
                   
 		

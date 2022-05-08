@@ -1,6 +1,6 @@
 <?php
-    include_once '../../../modelS/demande.php';
-    include_once '../../../controllerS/demandeC.php';
+    include_once '../../../model/demande.php';
+    include_once '../../../controller/demandeC.php';
     
 
  

@@ -1,7 +1,7 @@
 <?php
   
-  include('../../../controllerS/sponsorsC.php');
-  include('../../../controllerS/demandeC.php');
+  include('../../../controller/sponsorsC.php');
+  include('../../../controller/demandeC.php');
  
   $sponsorsC = new sponsorsC();
   $demande_spC = new demande_spC();
@@ -9,26 +9,14 @@
   $listesponsors=$sponsorsC->affichersponsors(); 
   $listedemande_sp=$demande_spC->afficherdemande_sp(); 
 
-  if(isset($_POST['trierdesc']))
-    {
-    $listesponsors=$sponsorsC->triersponsorsDESC();
-    session_start();
-    }
-    else {
-        $listesponsors=$sponsorsC->triersponsorsASC();
-        session_start();
-    }
 
-    
-    if(isset($_POST['trierdesc']))
-    {
-    $listedemande_sp=$demande_spC->trierdemande_spDESC();
-   // session_start();
-    }
-    else {
-        $listedemande_sp=$demande_spC->trierdemande_spASC();
-        session_start();
-    }
+  if(isset($_GET['recherche']))
+  {
+      $search_value=$_GET["recherche"];
+      $listesponsors=$sponsorsC->recherche($search_value);
+  }
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -291,7 +279,34 @@
                 <div class="card">
                   <div class="card-body">
                 
-                        <button class="btn-primary btn"> <a href="Ajout_Sponsors.php" class="text-white"> Ajouter </a> </button>
+                        
+                        <div class="p-15 p-b-0">
+                                                   
+                                                    
+                                                    <center><div class="form-group form-primary">
+                            
+                                                        <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" method="get" action="gestion_sponsors.php">
+                                                        <div class="form-group form-primary">
+                                                        
+                                                        <label class="float-label"><i class="fa fa-search m-r-10"></i>Search : </label>
+                                                                <input type="text" class="form-control"  aria-label="Search"  name="recherche" required="">
+                                                                <span class="form-bar"></span>
+                                                         
+                                                                    <button class="btn  btn-info waves-effect waves-light" type="submit" value="Chercher">
+                                                                        <i class="fas fa-search fa-sm"></i>
+                                                                    </button>
+                                                                </div></div></div>
+                                                            </div>
+                                                            </div>
+                                 </div>
+                                                        </form>
+                                                    </th></center>
+
+
+                                  <br><br><br><br><br>
+                                                </div>
+                                                <button class="btn-primary btn"> <a href="Ajout_Sponsors.php" class="text-white"> Ajouter </a> </button>
+
                          
                         
                         <br>
@@ -314,14 +329,14 @@
                       <table class="table table-bordered">
                         
                           <tr>
-                            <th>id_sp</th>
-                            <th>name_sp </th>
-                            <th>type_sp</th>
-                            <th>numtel_sp</th>
-                            <th>mail_sp</th>
-                            <th>inves_sp</th>
-                            <th>image_sp</th>
-                            <th>descrip_sp</th>
+                            <th>id</th>
+                            <th>nom </th>
+                            <th>type</th>
+                            <th>numtel</th>
+                            <th>mail</th>
+                            <th>inves</th>
+                            <th>image</th>
+                            <th>descrip</th>
                             <th>Delete</th>
                             <th>Modifier</th>
 
@@ -329,7 +344,7 @@
                             
                           </tr>
                           <?php
-				                       foreach($listesponsors as $sponsors){
+				                        foreach($listesponsors as $sponsors){
 		                              	?>
                         
                         
@@ -374,7 +389,7 @@
                                                 <br>
                      
                        <table class="table table-bordered">
-                            
+                       
                        <br>
                                                 <br>
                        <form method="POST" action="trieev.php">
@@ -382,7 +397,11 @@
                                                 <input type="submit"  name="trierdesc"  id="trierdesc"  class="btn  btn-info" value="trierasc" ></input>
                                                 
                                             
-                                                </form>
+                                                </form><br>
+                                                <br>
+                                                <br>
+                                                
+                                                
 
                                                    
                                                 <br>
@@ -407,7 +426,7 @@
                              
                            </tr>
                            <?php
-                                  foreach($listedemande_sp as $demande_sp){
+                                   foreach($listedemande_sp as $demande_sp){
                             ?>
                          
                          

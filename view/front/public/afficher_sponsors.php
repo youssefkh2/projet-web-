@@ -1,5 +1,5 @@
 <?php
-include_once('C:\xampp\htdocs\Projet_Web_Diversity\controllerS\sponsorsC.php');
+include_once('C:\xampp\htdocs\Projet_Web_Diversity\controller\sponsorsC.php');
 $sponsorsC = new sponsorsC();
 $listesponsors=$sponsorsC->affichersponsors(); 
 
@@ -143,7 +143,7 @@ $listesponsors=$sponsorsC->affichersponsors();
      </table>-->
      <?php
 $bdd= new PDO('mysql:host=localhost;dbname=ali;charset=utf8','root','');
-$commandeParPage =1;
+$commandeParPage =2;
 $commandeTotalReq=$bdd->query('SELECT id  FROM sponsors');
 $commandeTotal=$commandeTotalReq->rowCount();
 
@@ -157,7 +157,7 @@ $pageCourante=$_GET['page'];
 $depart=($pageCourante-1)*$commandeParPage;
 
 ?> 
- <center><button onclick="makePDF()" class="btn btn-primary" >Print</button> </center>
+ <center><button class="btn btn-primary" ><a href="print.php">Print</a></button> </center>
 
      <center><h3>Les sponsors dispo</h3></center>
      <hr>
@@ -269,18 +269,7 @@ $depart=($pageCourante-1)*$commandeParPage;
   <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
   <script src="vendors/fontawesome/all.min.js"></script>
   <script src="assets/js/theme.js"></script>
-  <script>
-            function makePDF(){
-                var printMe=document.getElementById('imprimer');
-                var wme=window.open("","","width:700,height:900");
-                wme.document.write(printMe.outerHTML);
-                wme.document.close();
-                wme.focus();
-                wme.print();
-                wme.close();
-            }
-        </script>
-
+  
   <link
     href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&amp;family=Volkhov:wght@700&amp;display=swap"
     rel="stylesheet">

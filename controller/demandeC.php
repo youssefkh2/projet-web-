@@ -1,6 +1,6 @@
 <?php
 	include_once 'C:\xampp\htdocs\Projet_Web_Diversity\config2.php';
-	require_once '../../../modelS/demande.php';
+	require_once '../../../model/demande.php';
 	class demande_spC{
 		function afficherdemande_sp(){
 			$sql="SELECT * FROM demande_sp";

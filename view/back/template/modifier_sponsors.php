@@ -1,6 +1,8 @@
 <?php
-    require_once '../../../modelS/sponsors.php';
-    include_once '../../../controllerS/sponsorsC.php';
+    include '../../../model/sponsors.php';
+    include_once '../../../controller/sponsorsC.php';
+ 
+    
    
 
     $error = "";
@@ -10,56 +12,69 @@
 
     // create an instance of the controller
     $sponsorsC = new sponsorsC();
-   
-    
+  
+
+	 /*die(var_dump(isset($_POST["nom"]) &&
+   isset($_POST["type"]) && 
+   isset($_POST["numero"])&& 
+   isset($_POST["email"])&& 
+   isset($_POST["inves"])&& 
+   isset($_POST["image"])&& 
+   isset($_POST["descrip"])&& !empty($_POST["nom"]) &&
+   !empty($_POST["type"]) && 
+   !empty($_POST["numero"])&& 
+   !empty($_POST["email"])&& 
+   !empty($_POST["inves"])&&
+   !empty($_POST["image"])&&
+   !empty($_POST["descrip"])));*/
 
     if (
-         isset($_POST["id"]) &&
-		     isset($_POST["nom"]) &&
+        // isset($_POST["id"]) &&
+		isset($_POST["nom"]) &&
         isset($_POST["type"]) && 
         isset($_POST["numero"])&& 
         isset($_POST["email"])&& 
-        isset($_POST["image"])  &&
-       isset($_POST["descrip"])&&
-       isset($_POST["inves"])
+        isset($_POST["inves"])&& 
+        isset($_POST["image"])&& 
+        isset($_POST["descrip"])
+        
 
     ) {
-        if (
+        /*if (
            
-			 //!empty($_POST["id"]) &&
+			// !empty($_POST["id"]) &&
             !empty($_POST["nom"]) &&
             !empty($_POST["type"]) && 
             !empty($_POST["numero"])&& 
             !empty($_POST["email"])&& 
             !empty($_POST["inves"])&&
-            !empty($_POST["image"])&& 
+            !empty($_POST["image"])&&
             !empty($_POST["descrip"])
-
-        ) {
+           
+        ) {*/
             $sponsors = new sponsors(
-            $_POST["id"],
+            $_GET["id"],
             $_POST["nom"],
             $_POST["type"],
             $_POST["numero"],
             $_POST["email"],
+            $_POST["inves"],
             $_POST["image"],
             $_POST["descrip"],
-            $_POST["inves"]
+           
+
             );
-
-
-            $sponsorsC->ajoutersponsors($sponsors);
+            $sponsorsC->modifiersponsors($sponsors, $_GET["id"]);
             header('Location:gestion_sponsors.php');
-
-        }
-        else
-            $error = "Missing information";
+        
     }
 
-   
 
-    
-  ?>
+  
+  
+
+?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -67,7 +82,7 @@
 <head>
   <!-- Required meta tags -->
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta nom="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <title>Breeze Admin</title>
   <link rel="stylesheet" href="assets/vendors/mdi/css/materialdesignicons.min.css" />
   <link rel="stylesheet" href="assets/vendors/flag-icon-css/css/flag-icon.min.css" />
@@ -85,7 +100,6 @@
         <a class="sidebar-brand brand-logo" href="index.html"><img src="assets/images/logo.svg" alt="logo" /></a>
         <a class="sidebar-brand brand-logo-mini pl-4 pt-3" href="index.html"><img src="assets/images/logo-mini.svg"
             alt="logo" /></a>
-            
       </div>
       <ul class="nav">
         <li class="nav-item nav-profile">
@@ -117,7 +131,7 @@
           <div class="collapse" id="ui-basic">
             <ul class="nav flex-column sub-menu">
               <li class="nav-item">
-                <a class="nav-link" href="gestion sponsor.html">Gestion_Sponors</a>
+                <a class="nav-link" href="gestion sponsor.html">Gestiononors</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="pages/ui-features/dropdowns.html">Dropdowns</a>
@@ -243,7 +257,7 @@
             </li>
             <li class="nav-item dropdown d-none d-sm-flex">
               <a class="nav-link count-indicator dropdown-toggle" id="messageDropdown" href="#" data-toggle="dropdown">
-                <i class="mdi mdi-email-outline"></i>
+                <i class="mdi mdi-eemail-outline"></i>
                 <span class="count count-varient2">5</span>
               </a>
               <div class="dropdown-menu navbar-dropdown navbar-dropdown-large preview-list"
@@ -259,7 +273,7 @@
                 <a class="dropdown-item preview-item">
                   <div class="preview-item-content flex-grow">
                     <span class="badge badge-pill badge-warning">Invoices</span>
-                    <p class="text-small text-muted ellipsis mb-0"> Invoice for order is mailed </p>
+                    <p class="text-small text-muted ellipsis mb-0"> Invoice for order is emailed </p>
                   </div>
                   <p class="text-small text-muted align-self-start"> 4:10 PM </p>
                 </a>
@@ -300,7 +314,7 @@
             <li class="nav-item nav-profile dropdown border-0">
               <a class="nav-link dropdown-toggle" id="profileDropdown" href="#" data-toggle="dropdown">
                 <img class="nav-profile-img mr-2" alt="" src="assets/images/faces/face1.jpg" />
-                <span class="profile-name">Henry Klein</span>
+                <span class="profile-nom">Henry Klein</span>
               </a>
               <div class="dropdown-menu navbar-dropdown w-100" aria-labelledby="profileDropdown">
                 <a class="dropdown-item" href="#">
@@ -327,100 +341,107 @@
         <div class="col-12 grid-margin stretch-card">
           <div class="card">
             <div class="card-body">
-              <h4 class="card-title">Ajouter Sponsors</h4>
-              <div class="card-block">
-                <div id="error">
-                  <?php echo $error; ?>
-                </div>
-                <form action="" class="form-material" method="POST">
-                  <p class="card-description"></p>
-                  <form class="forms-sample">
-                    <div class="form-group ">
-                      <input type="hidden" name="id" id="id" value="0" class="form-control" required="">
-                      <span class="form-bar"></span>
-                      <!-- <label class="float-label">Id_Sponsors</label> -->
-                    </div>
+            <h5>Modfier Sponsors</h5>
+            <footer class="footer">
 
-                    <div class="form-group">
+</footer>
+                                                    </div>
+                                                    <div class="card-block">
+                                                    <div id="error">
+                                                    <?php echo $error; ?>
+                                                    </div>
+                                                    <?php
+                                                    
+                                                        if (isset($_GET['id'])){
+                                                            $sponsors = $sponsorsC->recuperersponsors($_GET['id']);
+				
+		                                            ?>
+                                                
 
-                      <label class="float-label">Nom de Sponsors</label>
-                      
-                      <br><br>
-                      <span class="form-bar"></span>
-                      <input type="text" id="nom" name="nom" class="form-control" required=""
-                        onblur="saisirNom()">
-                      <p id="errorName" class="erreur"></p>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-sm-2 col-form-label">Select Type</label>
-                      <div class="col-sm-10">
-                        <select name="type" id="type" class="form-control">
-                          <option value="Gold">Gold</option>
-                          <option value="Platinum">Platinum</option>
-                          <option value="Standard">Standard</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="float-label">Tel Number</label>
-                      <br><br>
-                      <span class="form-bar"></span>
-                      <input type="number" id="numero" name="numero" class="form-control" required=""
-                        maxlength="11" onblur="numBer()">
-                      <p id="errorNBM" class="erreur"></p>
-                    </div>
-                    <div class="form-group ">
-                      <label class="float-label"> Mail Adress</label>
-                      <br><br>
-                      <input type="email" id="email" name="email" class="form-control" required=""
-                        onblur="saisirMail()" placeholder="Please enter a Valid Adress">
-                      <span class="form-bar"></span>
-                     
-                      <p id="errorMR" class="erreur"></p>
-                    </div>
-                    <div class="form-group ">
-                      <label class="float-label">Enter Investissement</label>
-                      <input type="number" id="inves" name="inves" class="form-control" required=""
-                        onblur="Inves()" maxlength="15">
-                      <span class="form-bar"></span>
-                      
-                     
-                      <p id="errorinv" class="erreur"></p>
-                    </div>
-                    <div class="form-group form-default">
-                      <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Upload Image</label>
-                        <div class="col-sm-10">
-                          <input type="file" class="form-control" id="image" name="image" required="">
-                        </div>
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label>Description</label>
-                      <br>
-                      <textarea rows="5" cols="33" name="descrip" class="form-control" id="descrip" 
-                        placeholder="Description Sponsors....." required=""></textarea>
-                    </div>
+                                                        <form action="" class="form-material" method="POST">
+                                                        <?php
+                                                        }   
+                                                        ?>
+                                                            
+                                                          
+                                                            <div class="form-group form-default">
+                                                            <label class="float-label">Nom sponsors</label>
+                                                                <input type="text"  id="nom" name="nom" onblur="saisirNom()" value="<?php echo $sponsors['nom']; ?>" class="form-control" required="">
+                                                                <span class="form-bar"></span>
+                                                              
+                                                                <p id="errornom" class="erreur" ></p>
+                                                            </div>
+                                                            <div class="form-group row">
+                                                                    <label class="col-sm-2 col-form-label">Select Type</label>
+                                                                    <div class="col-sm-10">
+                                                                        <select name="type" id="type" class="form-control">
+                                                                        <option value="<?php echo $sponsors['type']; ?>"><?php echo $sponsors['type']; ?></option>
+                                                                        <option value="Gold">Gold</option>
+                                                                        <option value="Platinum">Platinum</option>
+                                                                         <option value="Standard">Standard</option>
+                                                                        </select>
+                                                                    </div>
+                                                            </div>
+                                                           
+                                                           
+                                                            <div class="form-group form-default">
+                                                            <label class="float-label">Numero_Tel</label>
+                                                                <input type="number"  id="numero"  onblur="numBer()" name="numero" value="<?php echo $sponsors['numero']; ?>"  class="form-control"required="" maxlength="11">
+                                                                <span class="form-bar"></span>
+                                                               
+                                                                <p id="errornumero" class="erreur" ></p>
+                                                            </div>
+                                                            <div class="form-group form-default">
+                                                            <label class="float-label">Adress_Mail</label>
+                                                                <input type="email"  id="email" name="email"  onblur="saisiremail()" value="<?php echo $sponsors['email'];?>" class="form-control" required="" placeholder="      @esprit.com">
+                                                                <span class="form-bar"></span>
+                                                               
+                                                                <p id="erroremail" class="erreur" ></p>
+                                                            </div>
+                                                            
+                                                            <div class="form-group form-default">
+                                                            <label class="float-label">Enter Investissement</label>
+                                                                <input type="number"  id="inves" onblur="Inves()"name="inves" value="<?php echo $sponsors['inves']; ?>" class="form-control" required="">
+                                                                <span class="form-bar"></span>
+                                                               
+                                                                <p id="errorinv" class="erreur" ></p>
+                                                            </div>
+                                                            <div class="form-group form-default">
+                                                            <!-- <label class="float-label">Enter Image</label>
+                                                            <br> -->
+                                                                <input type="file"  id="image" name="image"  value="" class="form-control" required="">
+                                                                <span class="form-bar"></span>
+                                                                
+                                                            </div>
+                                                         
+                                                            <div class="form-group form-default">
+                                                            <label>Description</label>
+                                                            <br>
+                                                                <textarea rows="5" cols="33" name="descrip" class="form-control" placeholder="Description Sponsors....." required=""><?php echo $sponsors['descrip']; ?></textarea>
+                                                            </div>
+                                                       
                     
-
-                    
-                    <button  class="btn btn-primary btn-lg btn-block" type="submit">Ajouter</a></button>
-                    
+                                                            
+                                                            
+                   
+                    <button  class="btn btn-primary btn-lg btn-block" type="submit"><a href="gestion_sponsors.php">modifier</a></button>
                
-</div>
-
+                    <button class="btn btn-light"><a href="gestion_sponsors.php">Cancel</button>
                   </form>
+                  
+		
               </div>
             </div>
+           
           </div>
           <!--browser stats ends-->
         </div>
       </div>
     </div>
-    <footer class="footer">
-
-    </footer>
+   
   </div>
+ 
+   
   <!-- main-panel ends -->
   </div>
   <!-- page-body-wrapper ends -->
@@ -447,118 +468,6 @@
   <!-- Custom js for this page -->
   <script src="assets/js/dashboard.js"></script>
   <!-- End custom js for this page -->
-
-
-  <script>
-    
-    function saisirNom() {
-                var name = document.getElementById('nom').value;
-                var regex = /^[A-Za-z]+$/;
-
-
-                if (!(regex.test(name))) {
-                    document.getElementById("errorName").textContent = "Name has to be composed of letters only!";
-                    document.getElementById("errorName").style.color = "red";
-                    return 0;
-                } 
-                else if (name[0] == name[0].toLowerCase()) {
-                    document.getElementById("errorName").textContent = "Name has to start by a capital letter!";
-                    document.getElementById("errorName").style.color = "red";
-                    return 0;
-                }
-                 else {
-                    document.getElementById("errorName").textContent = "Name Verified";
-                    document.getElementById("errorName").style.color = "green";
-                    return 1;
-                }
-    }
-   
-
-    function saisirMail() {
-
-        var mail = document.getElementById("email").value;
-        var x=mail.length-10;
-        var terminaison=mail.substring(x,mail.length);
-           
-            
-            
-
-     
-        if (!(terminaison==="@esprit.tn"))
-        {
-            document.getElementById("errorMR").textContent = "mail non valide";
-            document.getElementById("errorMR").style.color = "red";
-            return 0;
-        }
-        else
-        {
-            document.getElementById("errorMR").textContent = "mail Verified";
-            document.getElementById("errorMR").style.color = "green";
-            return 1;
-
-        }
-
-    }
-
-function numBer()
-{
-    var nbm = document.getElementById("numtero").value;
-
-    if (nbm <= 0 ) {
-        document.getElementById("errorNBM").textContent = "nombre des membres doit être supérieur à 0 ";
-        document.getElementById("errorNBM").style.color = "red";
-    }
-    else
-    {
-        document.getElementById("errorNBM").textContent = "Number Verified";
-        document.getElementById("errorNBM").style.color = "green";
-            return 1;
-    }
-
-
-
-}
-function Inves()
-{
-    var nbm = document.getElementById("inves").value;
-
-    if (nbm <= 0 ) {
-        document.getElementById("errorinv").textContent = "nombre des membres doit être supérieur à 0 ";
-        document.getElementById("errorinv").style.color = "red";
-    }
-    else
-    {
-        document.getElementById("errorinv").textContent = "Number Verified";
-        document.getElementById("errorinv").style.color = "green";
-            return 1;
-    }
-
-
-
-}
-
-
-
-
-
-
-    function ajout(event) {
-    if ( saisirNom() == 0 || saisirMail()==0  || numBer()==0   || Inves()==0)
-    
-        event.preventDefault();
-    }
-
-
-  
-
-
-
-
-
-
-
-</script>
-
 </body>
 
 </html>
