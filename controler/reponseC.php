@@ -34,6 +34,12 @@ Class reponseC {
              $th->getMessage();
         }
     }
+    function like()
+    {
+       $text="like";
+       return $text;
+
+    }
     function getrepbyid($id)
     {
         $requete = "select * from reponses where id_reponse=:id";

@@ -94,6 +94,36 @@
         }
 
 
+		function triersponsorsDESC()
+		{
+			$sql = "SELECT * from reclamations ORDER BY id_reclamation DESC";
+			$db = config::getConnexion();
+			try {
+			$req = $db->query($sql);
+			return $req;
+			} 
+			catch (Exception $e)
+			 {
+			die('Erreur: ' . $e->getMessage());
+			}
+
+		}
+		function triersponsorsASC()
+		{
+			$sql = "SELECT * from reclamations ORDER BY id_reclamation ASC";
+			$db = config::getConnexion();
+			try {
+			$req = $db->query($sql);
+			return $req;
+			} 
+			catch (Exception $e)
+			 {
+			die('Erreur: ' . $e->getMessage());
+			}
+		}
+
+
+
 		function modifierrec($reclamation, $id_reclamation){
 			try {
 				$db = config::getConnexion();
