@@ -1,45 +1,35 @@
 <?php
-	include_once 'C:/xampp/htdocs/projet_diversify/controllerR/reservationC.php';
-    include_once 'C:/xampp/htdocs/projet_diversify/modelR/reservationMod.php';
+ 	include_once 'C:/xampp/htdocs/projet_diversify/controller/reservationC.php';
+try
+{
+ $bdd = new PDO('mysql:host=localhost;dbname=reservation', 'root', "");
+ $bdd ->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+}
+catch(Exception $e)
+{
+  die("Une érreur a été trouvé : " . $e->getMessage());
+}
+$bdd->query("SET NAMES UTF8");
 
-	$reservationC=new ReservationC();
-	$listeReservation=$reservationC->afficherReservation(); 
+if (isset($_GET["s"]) AND $_GET["s"] == "Rechercher")
+{
+ $_GET["terme"] = htmlspecialchars($_GET["terme"]); //pour sécuriser le formulaire contre les intrusions html
+ $terme = $_GET["terme"];
+ $terme = trim($terme); //pour supprimer les espaces dans la requête de l'internaute
+ $terme = strip_tags($terme); //pour supprimer les balises html dans la requête
 
+ if (isset($terme))
+ {
+  $terme = strtolower($terme);
+  $select_terme = $bdd->prepare("SELECT * FROM reservation WHERE cin_client LIKE ? or id_event LIKE ? ");
+  $select_terme->execute(array("%".$terme."%" ,"%".$terme."%" ));
+ }
+ else
+ {
+  $message = "Vous devez entrer votre requete dans la barre de recherche";
+ }
+}
 
-     // create adherent
-     $reservation = null;
-
-     // create an instance of the controller
-     $reservationC = new ReservationC();
-     if (
-         isset($_POST["cin_client"]) &&
-         isset($_POST["date_res"]) &&		
-         isset($_POST["adulte"]) &&
-         isset($_POST["enfant"]) && 
-         isset($_POST["id_event"]) 
-     ) {
-         if (
-             !empty($_POST["cin_client"]) && 
-             !empty($_POST['date_res']) &&
-             !empty($_POST["adulte"]) && 
-             !empty($_POST["enfant"]) && 
-             !empty($_POST["id_event"])
-         ) {
-             $reservation = new Reservation(
-                 $_POST['cin_client'],
-                 $_POST['date_res'],
-                 $_POST['adulte'], 
-                 $_POST['enfant'],
-                 $_POST['id_event']
-             );
-             $reservationC->modifierReservation($reservation, $_POST["cin_client"]);
-             header('Location:afficherRES.php');
-         }
-         else
-             $error = "Missing information";
-             echo $error;
-        }
-    
 ?>
 <html>
 <head>
@@ -62,7 +52,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicons/favicon-16x16.png">
     <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicons/favicon.png">
     <link rel="manifest" href="assets/img/favicons/manifest.json">
-    <meta name="msapplication-TileImage" content="assets/img/favicons/mstile-150x150.png">
+    <meta name="msapplication-TileImage" content="templateF/public/assets/img/favicons/mstile-150x150.png">
     <meta name="theme-color" content="#ffffff">
 
 
@@ -74,7 +64,7 @@
   </head>
 	<body>
 	<nav class="navbar navbar-expand-lg navbar-light sticky-top" data-navbar-on-scroll="data-navbar-on-scroll">
-        <div class="container"><a class="navbar-brand" href="index.html"><img src="./templateF/public/assets/img/logo.svg" height="31" alt="logo" /></a>
+        <div class="container"><a class="navbar-brand" href="index.html"><img src="assets/img/logo.svg" height="31" alt="logo" /></a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"> </span></button>
           <div class="collapse navbar-collapse border-top border-lg-0 mt-4 mt-lg-0" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto">
@@ -88,9 +78,34 @@
           </div>
         </div>
       </nav>
+    <center> <form class="form-material" action = "recherche.php" method ="GET">
+                                                            
+                                                        
+                                                        <div class="form-group form-primary">
+                                                            <div class="col-sm-4">
+                                                            <label class="float-label"><i class="fa fa-search m-r-10"></i>Search reservation</label>
+                                                                <input type = "search" name ="terme" class="form-control" required="">
+                                                                
+                                                                <span class="form-bar"></span>
+                                                                
+                                                            </div>
+                                                        </div>
+                                                        <input  class="btn  btn-info waves-effect waves-light" type = "submit" name = "s" value = "Rechercher">
+                                                        <br>
+                                                        <br>
+                                                        <br>
+                                                        <br>
+                                                    </form></center>
+      
 	  <button type="button" class="btn btn-primary"><a href="ajouterRES.php">Ajouter une reservation</a></button>
 		<center><h1>Liste des reservations</h1></center>
-		<table border="1" align="center">
+    <center><form method="POST" action="trierRes.php">
+                                                <input type="submit"  name="trierasc" id="trierasc"  class="btn  btn-info" value="trierasc" ></input>
+                                                <input type="submit"  name="trierdesc"  id="trierdesc"  class="btn  btn-info" value="trierdesc" ></input>
+                                                
+                                            
+                                                </form></center><br>
+		<table border="2" align="center">
 			<tr>
 				<th>cin_client</th>
 				<th>date_res</th>
@@ -98,50 +113,31 @@
 				<th>enfant</th>
 				<th>id_event</th>
 			</tr>
-			<?php
-				foreach($listeReservation as $reservation) {
-                    if( $_POST['cin_client'] == $reservation['cin_client'] ) {
-			?>
+            
+            <?php
+     while($terme_trouve = $select_terme->fetch())
+      {
+                               
+     ?>
 			<tr>
-            <form method="POST" action="modifierRES.php">
-                <td><label><?php echo $reservation['cin_client']; ?></label>
-				<input type="hidden" value="<?php echo $reservation['cin_client']; ?>" size="1" name="name_client">
-				<td><input value="<?php echo $reservation['date_res']; ?>" name="date_res"></td>
-				<td><input value="<?php echo $reservation['adulte']; ?>" name="adulte"></td>
-				<td><input value="<?php echo $reservation['enfant']; ?>" name="enfant"></td>
-				<td><label><?php echo $reservation['id_event']; ?></label>
-				<input type="hidden" value="<?php echo $reservation['id_event']; ?>" name="id_event"></td>
-				<td>
-					
-						<input type="submit" name="Modifier" value="Modifier" class="btn-danger btn">
-						<input type="hidden" value=<?PHP echo $reservation['cin_client']; ?> name="cin_client">
-					</form>
-				</td>
-				<td>
-					<a href="supprimerRES.php ? cin_client=<?php echo $reservation['cin_client']; ?>" class="btn-sucess btn">Supprimer</a>
-				</td>
-			</tr>
-            <?php } else { ?>
-                <tr>
-				<td><?php echo $reservation['cin_client']; ?></td>
-				<td><?php echo $reservation['date_res']; ?></td>
-				<td><?php echo $reservation['adulte']; ?></td>
-				<td><?php echo $reservation['enfant']; ?></td>
-				<td><?php echo $reservation['id_event']; ?></td>
+            <td><?php echo $terme_trouve['cin_client'];?></td>
+            <td><?php echo $terme_trouve['date_res'];?></td>
+            <td><?php echo $terme_trouve['adulte'];?></td>
+            <td><?php echo $terme_trouve['enfant'];?></td>
+            <td><?php echo $terme_trouve['id_event'];?></td>
 				<td>
 					<form method="POST" action="modifierRES.php">
-						<input type="submit" name="Modifier" value="Modifier"  class="btn-danger btn">
-						<input type="hidden" value=<?PHP echo $reservation['cin_client']; ?> name="cin_client">
+						<input type="submit" name="Modifier" value="Modifier" class="btn-warning btn">
+						<input type="hidden" value=<?PHP echo $terme_trouve['cin_client']; ?> name="cin_client">
 					</form>
 				</td>
 				<td>
-					<a href="supprimerRES.php ? cin_client=<?php echo $reservation['cin_client']; ?>"class="btn-sucess btn">Supprimer</a>
+					<a href="supprimerRES.php ? cin_client=<?php echo $terme_trouve['cin_client']; ?>" class="btn-success btn">Supprimer</a>
 				</td>
 			</tr>
-                <?php  }?>
-			<?php
-				}
-			?>
+            <?php  }
+     $select_terme->closeCursor();
+               ?>
 		</table>
 	</body>
 	 <!-- ============================================-->

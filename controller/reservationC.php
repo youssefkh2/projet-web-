@@ -1,7 +1,7 @@
 <?php
-	include_once 'C:/xampp/htdocs/projet_diversify/controllerR/voucherC.php';
-	include_once 'C:/xampp/htdocs/projet_diversify/modelR/reservationMod.php';
-	include_once 'C:/xampp/htdocs/projet_diversify/modelR/voucherMod.php';
+	include_once 'C:/xampp/htdocs/projet_diversify/controller/voucherC.php';
+	include_once 'C:/xampp/htdocs/projet_diversify/model/reservationMod.php';
+	include_once 'C:/xampp/htdocs/projet_diversify/model/voucherMod.php';
 	class ReservationC {
 		function trier($date_res)
 		{$sql="SELECT * FROM reservation ORDER by date_res desc";

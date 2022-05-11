@@ -1,14 +1,102 @@
 <?php
-	include_once 'C:/xampp/htdocs/projet_diversify/controllerR/voucherC.php';
-    include_once 'C:/xampp/htdocs/projet_diversify/controllerR/reservationC.php';
+  include_once 'C:/xampp/htdocs/projet_diversify/model/reservationMod.php';
+  include_once 'C:/xampp/htdocs/projet_diversify/model/voucherMod.php';
+    include_once 'C:/xampp/htdocs/projet_diversify/controller/reservationC.php'; 
+    include_once 'C:/xampp/htdocs/projet_diversify/controller/voucherC.php'; 
+    use PHPMailer\PHPMailer\PHPMailer;
+    use PHPMailer\PHPMailer\Exception;
+
+require 'C:/xampp/htdocs/projet_diversify/view/front/public/PHPMailer-master/src/Exception.php';
+require 'C:/xampp/htdocs/projet_diversify/view/front/public/PHPMailer-master/src/PHPMailer.php';
+require 'C:/xampp/htdocs/projet_diversify/view/front/public/PHPMailer-master/src/SMTP.php';  
+	$reservationC=new ReservationC();
+	$listeReservation=$reservationC->afficherReservation(); 
+    $error = "";
+
+    // create adherent
+    $voucher = null;
+
+    // create an instance of the controller
+    $voucherC = new VoucherC();
+    $listeVoucher=$voucherC->afficherCinRes();
+    if (
+        isset($_POST["cinClient"]) &&
+		isset($_POST["date_limite"]) &&		
+        isset($_POST["avertissement"]) 
+		//isset($_POST["code"])
+    ) {
+        if (
+            !empty($_POST["cinClient"]) && 
+			!empty($_POST['date_limite']) &&
+            !empty($_POST["avertissement"]) 
+			//!empty($_POST["code"])
+        ) {
+            // $reservation = new Reservation(
+            //     $_POST['cin_client'],
+			// 	$_POST['date_res'],
+            //     $_POST['adulte'], 
+			// 	$_POST['enfant'],
+            //     $_POST['id_event']
+            // ); 
+            $voucher = new Voucher( 
+                $_POST['date_limite'],
+                $_POST['avertissement'], 
+                $_POST['cinClient'],
+             $_POST['codeVoucher']=$voucherC->random_code(5)
+				//$_POST['code']
+            ); 
+    
+           // $voucher = new Voucher( $_POST['cinClient'], $_POST['code'], $_POST['avertissement'], $_POST['date_limite']);
+            $voucherC->ajouterVoucher($voucher);
+            header('Location:afficherVoucher.php');
+           // $Vou =$_POST['codeVoucher'];
+         
+            $datel = $_POST['date_limite'];
 
 
-	$voucherC=new VoucherC();
-    $reservationC = new ReservationC();
+            $mail = new PHPMailer;
+         
+            $mail->SMTPDebug = 3;                               // Enable verbose debug output
+            
+            $mail->isSMTP();                                      // Set mailer to use SMTP
+            $mail->Host = 'smtp.gmail.com';  // Specify main and backup SMTP servers
+            $mail->SMTPAuth = true;                               // Enable SMTP authentication
+            $mail->Username = 'helamoalla91@gmail.com';                 // SMTP username
+            $mail->Password = '54023788Hh';                           // SMTP password
+            //$mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
+            $mail->Port = 587;                                    // TCP port to connect to
+            
+            $mail->From='helamoalla91@gmail.com';
+            $mail->FromName="helamoalla";
+            $mail->addAddress('helamoalla91@gmail.com', 'helamoalla');     // Add a recipient
+            $mail->isHTML(true);                                  // Set email format to HTML
+            if( $_POST['avertissement']=='3')
+            {
+            $mail->Subject = 'AVERTISSEMENT';
+            $mail->Body    = 'vous avez 3 avertissements , le prochain avertissement votre compte sera supprimer ';
+          }else
+          {
+            $mail->Subject = 'CONFIRMATION';
+            $mail->Body    = 'voici votre Voucher '.$_POST['codeVoucher'].', svp ne depasser pas votre date limite :'.$datel.'';
+          }
+            $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+            mail("helamoalla91@gmail.com","test","confirmation","helamoalla91@gmail.com");
+            if(!$mail->send()) {
+                echo 'Message could not be sent.';
+                echo 'Mailer Error: ' . $mail->ErrorInfo;
+            } else {
+                echo 'Message has been sent';
+            }
+          
 
-	$listeVoucher=$voucherC->afficherCinRes(); 
-    $listeReservation =  $reservationC->afficherReservation()
-   
+ 
+
+        }
+        else
+            $error = "Missing information";
+    }
+
+    
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -271,75 +359,70 @@
               <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
-                    <!--<h3>Formulaire Catégories</h3>
-                    <hr>
-                    <form action="" method="POST">
-                      <fieldset>
-                      <ul>
-                        
-                        <li>
-                          <label for="nom">Nom Categorie : </label>
-                          <input type="text" id="nom" name="nom" autocomplete="off">
-                        </li>
-                        <li>
-                          <label for="descriptionCat">Description : </label>
-                          <textarea name="descriptionCat" id="descriptionCat" ></textarea>
-                        </li>
-                      </ul>
-                      <hr>
-                    </fieldset>
-                    </form>-->
-                    
+                   
   
 
-                        <!--<input type="submit" value="ajouter"/>-->
         
-        <button class="btn-success btn"><a href="ajouterVoucher.php">Ajouter</a></button> <hr>
-        <table border="1" align="center" id="tab">
-			<tr>
-				<th>cinClient</th>
-				<th>date_limite</th>
-				<th>avertissement</th>
-				<th>code</th>
-                <th>Voucher</th>
-                <th>Modifier</th>
-                <th>Supprimer</th>
-			</tr>
-			<?php
-				foreach($listeVoucher as $voucher){
+        <form action="" method="POST">
+            <table border="1" align="center">
+                <tr>
+                    <td>
+                        <label for="cin_client">cin client:</label>
+                    </td>
+                    <td>
+                    <select name="cinClient" id="cinClient">
+          <?php
+				foreach($listeReservation as $reservation){
 			?>
-			<tr>
-				<td><?php echo $voucher['cinClient']; ?></td>
-				<td><?php echo $voucher['date_limite']; ?></td>
-				<td><?php echo $voucher['avertissement']; ?></td>
-				<td><?php echo $voucher['code']; ?></td>
-                <td><?php echo $voucher['codeVoucher']; ?> </td> 
-				<td>
-                    <form method="POST" action="modifierVoucher.php">
-						<input type="submit" name="Modifier" value="Modifier">
-						<input type="hidden" value=<?PHP echo $voucher['code']; ?> name="code">
-					</form>
-				</td>
-				<td>
-					<a href="supprimerVoucher.php ? code=<?php echo $voucher['code']; ?>" class="btn-danger btn">Supprimer</a>    
-				</td>
-			</tr>
-			<?php
+              <option name="cinClient" value="<?php echo $reservation['cin_client']; ?>"><?php echo $reservation['cin_client']; ?></option>
+              <?php
 				}
 			?>
-		</table>
-    <!-- **********pdf********* -->
-    <button type="button" class="btn btn-sm btn-outline-secondary" onclick=" window.print();">Export</button>
-    <!-- <input type="button" value="Create PDF" id="btPrint" onclick="createPDF()" /> -->
-                    </div>
-                  </div>
-                </div>
-              </div>
-                <!--browser stats ends-->
-              </div>
-            </div>
-          </div>
-          <footer class="footer">
+            <!--<td><input type="text" name="cinClient" id="cinClient" maxlength="10"></td>-->
+                </select>
+                       <!-- <input type="text" name="cin_client" id="cin_client" maxlength="20">-->
+                    </td>
+                </tr>
+				<tr>
+                    <td>
+                        <label for="date_limite">date limite:
+                        </label>
+                    </td>
+                    <td><input type="date" name="date_limite" id="date_limite" ></td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="avertissement">avertissement:
+                        </label>
+                    </td>
+                    <td><input type="text" name="avertissement" id="avertissement" maxlength="1"></td>
+                </tr>
+              <!-- <tr>
+                    <td>
+                        <label for="code">code:
+                        </label>
+                    </td>
+                    <td>
+                        <input type="text" name="code" id="code" maxlength="1">
+                    </td>
+                </tr>-->
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="submit" value="Reserver" class="btn-danger btn"> 
+                       
+                    </td>
+                    <td>
+                      <!--  <input type="reset" value="Annuler"  >-->
+                        <button><a href="afficherVoucher.php">Annuler</a></button> 
+                    </td>
+                </tr>
+            </table>
+        </form>
+        </div>
+        </div>
+    </body>
+    <footer class="footer">
             <div class="d-sm-flex justify-content-center justify-content-sm-between">
               <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © bootstrapdash.com 2020</span>
               <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"> Free <a href="https://www.bootstrapdash.com/" target="_blank">Bootstrap dashboard template</a> from Bootstrapdash.com</span>
@@ -373,30 +456,4 @@
     <script src="assets/js/dashboard.js"></script>
     <!-- End custom js for this page -->
   </body>
-  <!-- <script>
-    function createPDF() {
-        var sTable = document.getElementById('tab').innerHTML;
-
-        var style = "<style>";
-        style = style + "table {width: 100%;font: 17px Calibri;}";
-        style = style + "table, th, td {border: solid 1px #DDD; border-collapse: collapse;";
-        style = style + "padding: 2px 3px;text-align: center;}";
-        style = style + "</style>";
-
-        // CREATE A WINDOW OBJECT.
-        var win = window.open('', '', 'height=700,width=700');
-
-        win.document.write('<html><head>');
-        win.document.write('<title>Profile</title>');   // <title> FOR PDF HEADER.
-        win.document.write(style);          // ADD STYLE INSIDE THE HEAD TAG.
-        win.document.write('</head>');
-        win.document.write('<body>');
-        win.document.write(sTable);         // THE TABLE CONTENTS INSIDE THE BODY TAG.
-        win.document.write('</body></html>');
-
-        win.document.close(); 	// CLOSE THE CURRENT WINDOW.
-
-        win.print();    // PRINT THE CONTENTS.
-    }
-</script> -->
 </html>

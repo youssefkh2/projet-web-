@@ -1,6 +1,6 @@
 <?php
   
-  include_once 'C:/xampp/htdocs/projet_diversify/controllerR/reservationC.php';
+  include_once 'C:/xampp/htdocs/projet_diversify/controller/reservationC.php';
   //include('../../../controllerS/demandeC.php');
  
   $reservationC = new ReservationC();

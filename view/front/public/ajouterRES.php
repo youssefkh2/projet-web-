@@ -1,13 +1,13 @@
 <?php
-    include_once 'C:/xampp/htdocs/projet_diversify/modelR/reservationMod.php';
-    include_once 'C:/xampp/htdocs/projet_diversify/controllerR/reservationC.php'; 
+    include_once 'C:/xampp/htdocs/projet_diversify/model/reservationMod.php';
+    include_once 'C:/xampp/htdocs/projet_diversify/controller/reservationC.php'; 
    // include_once 'C:/xampp/htdocs/projet_diversify/controllerR/voucherC.php';
     use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\Exception;
 
-require 'C:/xampp/htdocs/projet_diversify/viewR/frontR/public/PHPMailer-master/src/Exception.php';
-require 'C:/xampp/htdocs/projet_diversify/viewR/frontR/public/PHPMailer-master/src/PHPMailer.php';
-require 'C:/xampp/htdocs/projet_diversify/viewR/frontR/public/PHPMailer-master/src/SMTP.php';  
+require 'C:/xampp/htdocs/projet_diversify/view/front/public/PHPMailer-master/src/Exception.php';
+require 'C:/xampp/htdocs/projet_diversify/view/front/public/PHPMailer-master/src/PHPMailer.php';
+require 'C:/xampp/htdocs/projet_diversify/view/front/public/PHPMailer-master/src/SMTP.php';  
     $error = "";
     $sum=0;
     // create adherent

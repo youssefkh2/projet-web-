@@ -1,6 +1,6 @@
 <?php
 	include 'C:/xampp/htdocs/projet_diversify/config.php';
-	include_once 'C:/xampp/htdocs/projet_diversify/modelR/voucherMod.php';
+	include_once 'C:/xampp/htdocs/projet_diversify/model/voucherMod.php';
 	class VoucherC {
 		
         function random_code($length)
