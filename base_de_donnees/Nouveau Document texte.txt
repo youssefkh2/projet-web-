@@ -1,0 +1,374 @@
+-- phpMyAdmin SQL Dump
+-- version 5.1.1
+-- https://www.phpmyadmin.net/
+--
+-- Hôte : 127.0.0.1
+-- Généré le : mar. 10 mai 2022 à 19:25
+-- Version du serveur : 10.4.20-MariaDB
+-- Version de PHP : 8.0.9
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Base de données : `diversify`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `categories`
+--
+
+CREATE TABLE `categories` (
+  `id_cat` int(11) NOT NULL,
+  `Nom` varchar(255) NOT NULL,
+  `description` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `comments`
+--
+
+CREATE TABLE `comments` (
+  `idcom` int(11) NOT NULL,
+  `id_topic` int(11) NOT NULL,
+  `contenu` text NOT NULL,
+  `usersFullame` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `demande_sp`
+--
+
+CREATE TABLE `demande_sp` (
+  `id_sp` int(11) NOT NULL,
+  `id_event` int(11) NOT NULL,
+  `num_tlf` int(11) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `date_debut` date NOT NULL,
+  `date_fin` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `evenement`
+--
+
+CREATE TABLE `evenement` (
+  `id_event` int(11) NOT NULL,
+  `nom_event` varchar(255) NOT NULL,
+  `date` date NOT NULL,
+  `lieu` varchar(255) NOT NULL,
+  `heure` varchar(255) NOT NULL,
+  `id_cat` int(11) NOT NULL,
+  `image` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `reclamations`
+--
+
+CREATE TABLE `reclamations` (
+  `id_reclamation` int(11) NOT NULL,
+  `type_reclamation` varchar(100) NOT NULL,
+  `message` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `reponses`
+--
+
+CREATE TABLE `reponses` (
+  `id_reponse` int(11) NOT NULL,
+  `id_reclamation` int(11) NOT NULL,
+  `contenu` text NOT NULL,
+  `feedback` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `reservation`
+--
+
+CREATE TABLE `reservation` (
+  `cin_client` int(11) NOT NULL,
+  `date_res` date NOT NULL,
+  `adulte` int(11) NOT NULL,
+  `enfant` int(11) NOT NULL,
+  `id_event` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `sponsors`
+--
+
+CREATE TABLE `sponsors` (
+  `id` int(11) NOT NULL,
+  `nom` varchar(255) NOT NULL,
+  `type` varchar(255) NOT NULL,
+  `numero` int(11) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `image` varchar(255) NOT NULL,
+  `descrip` varchar(255) NOT NULL,
+  `inves` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `topic`
+--
+
+CREATE TABLE `topic` (
+  `idtopic` int(11) NOT NULL,
+  `titre` text NOT NULL,
+  `description` text NOT NULL,
+  `contenu` text NOT NULL,
+  `view_count` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `utilisateurs`
+--
+
+CREATE TABLE `utilisateurs` (
+  `id_user` int(11) NOT NULL,
+  `nom_user` varchar(50) NOT NULL,
+  `prenom_user` varchar(50) NOT NULL,
+  `email_user` varchar(255) NOT NULL,
+  `tel_user` int(11) NOT NULL,
+  `adresse_user` varchar(255) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `password_user` varchar(50) NOT NULL,
+  `role_user` varchar(50) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `utilisateurs`
+--
+
+INSERT INTO `utilisateurs` (`id_user`, `nom_user`, `prenom_user`, `email_user`, `tel_user`, `adresse_user`, `username`, `password_user`, `role_user`) VALUES
+(1, 'test1', 'test', 'test@gmail.com', 12345678, 'Ghazela', 'test', 'test', 'Administrateur'),
+(2, 'yoser', 'yoser', 'yoser@esprit.tn', 9876543, 'ariana', 'yoser', 'yoser', 'Etudiant'),
+(3, 'ahmed', 'ahmed', 'ahmed@gmail.tn', 24567890, 'soukra', 'ahmed', 'ahmed', 'Enseignant'),
+(5, 'sana', 'sana', 'sana@esprit.tn', 12345678, 'marsa', 'sana', 'sana', 'Etudiant');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `views`
+--
+
+CREATE TABLE `views` (
+  `idview` int(11) NOT NULL,
+  `post_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `voucher`
+--
+
+CREATE TABLE `voucher` (
+  `code` int(11) NOT NULL,
+  `date_limite` date NOT NULL,
+  `avertissement` int(11) NOT NULL,
+  `cinClient` int(11) NOT NULL,
+  `codeVoucher` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Index pour les tables déchargées
+--
+
+--
+-- Index pour la table `categories`
+--
+ALTER TABLE `categories`
+  ADD PRIMARY KEY (`id_cat`);
+
+--
+-- Index pour la table `comments`
+--
+ALTER TABLE `comments`
+  ADD PRIMARY KEY (`idcom`),
+  ADD KEY `id_topic` (`id_topic`);
+
+--
+-- Index pour la table `demande_sp`
+--
+ALTER TABLE `demande_sp`
+  ADD PRIMARY KEY (`id_sp`,`id_event`),
+  ADD KEY `id_event` (`id_event`);
+
+--
+-- Index pour la table `evenement`
+--
+ALTER TABLE `evenement`
+  ADD PRIMARY KEY (`id_event`),
+  ADD KEY `id_cat` (`id_cat`);
+
+--
+-- Index pour la table `reclamations`
+--
+ALTER TABLE `reclamations`
+  ADD PRIMARY KEY (`id_reclamation`);
+
+--
+-- Index pour la table `reponses`
+--
+ALTER TABLE `reponses`
+  ADD PRIMARY KEY (`id_reponse`),
+  ADD KEY `id_reclamation` (`id_reclamation`);
+
+--
+-- Index pour la table `reservation`
+--
+ALTER TABLE `reservation`
+  ADD PRIMARY KEY (`cin_client`);
+
+--
+-- Index pour la table `sponsors`
+--
+ALTER TABLE `sponsors`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `topic`
+--
+ALTER TABLE `topic`
+  ADD PRIMARY KEY (`idtopic`);
+
+--
+-- Index pour la table `utilisateurs`
+--
+ALTER TABLE `utilisateurs`
+  ADD PRIMARY KEY (`id_user`);
+
+--
+-- Index pour la table `views`
+--
+ALTER TABLE `views`
+  ADD PRIMARY KEY (`idview`),
+  ADD KEY `post_id` (`post_id`);
+
+--
+-- Index pour la table `voucher`
+--
+ALTER TABLE `voucher`
+  ADD PRIMARY KEY (`code`),
+  ADD KEY `cinClient` (`cinClient`);
+
+--
+-- AUTO_INCREMENT pour les tables déchargées
+--
+
+--
+-- AUTO_INCREMENT pour la table `categories`
+--
+ALTER TABLE `categories`
+  MODIFY `id_cat` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `comments`
+--
+ALTER TABLE `comments`
+  MODIFY `idcom` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `reclamations`
+--
+ALTER TABLE `reclamations`
+  MODIFY `id_reclamation` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `reponses`
+--
+ALTER TABLE `reponses`
+  MODIFY `id_reponse` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `topic`
+--
+ALTER TABLE `topic`
+  MODIFY `idtopic` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `utilisateurs`
+--
+ALTER TABLE `utilisateurs`
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT pour la table `views`
+--
+ALTER TABLE `views`
+  MODIFY `idview` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Contraintes pour les tables déchargées
+--
+
+--
+-- Contraintes pour la table `comments`
+--
+ALTER TABLE `comments`
+  ADD CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`id_topic`) REFERENCES `comments` (`idcom`);
+
+--
+-- Contraintes pour la table `demande_sp`
+--
+ALTER TABLE `demande_sp`
+  ADD CONSTRAINT `demande_sp_ibfk_1` FOREIGN KEY (`id_event`) REFERENCES `evenement` (`id_event`);
+
+--
+-- Contraintes pour la table `evenement`
+--
+ALTER TABLE `evenement`
+  ADD CONSTRAINT `evenement_ibfk_1` FOREIGN KEY (`id_cat`) REFERENCES `categories` (`id_cat`);
+
+--
+-- Contraintes pour la table `reponses`
+--
+ALTER TABLE `reponses`
+  ADD CONSTRAINT `reponses_ibfk_1` FOREIGN KEY (`id_reclamation`) REFERENCES `reponses` (`id_reponse`);
+
+--
+-- Contraintes pour la table `views`
+--
+ALTER TABLE `views`
+  ADD CONSTRAINT `views_ibfk_1` FOREIGN KEY (`post_id`) REFERENCES `views` (`idview`);
+
+--
+-- Contraintes pour la table `voucher`
+--
+ALTER TABLE `voucher`
+  ADD CONSTRAINT `voucher_ibfk_1` FOREIGN KEY (`cinClient`) REFERENCES `voucher` (`code`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
